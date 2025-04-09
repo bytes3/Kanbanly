@@ -17,8 +17,14 @@ export default $config({
       link: [myBucket],
     });
 
-    myApi.route("GET /", "backend/lambda.handler")
+    new sst.aws.Auth("MyAuth", {
+      issuer: "packages/functions/src/auth.handler"
+    });
 
+    myApi.route("GET /", "src/get.handler");
+    api.deploy();
+
+    // TODO(Refactor): Move this into an utility
     const [fs, pulumi] = await Promise.all([import("fs"), import("@pulumi/pulumi")])
 
     const envVars = pulumi.all([

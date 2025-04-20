@@ -4,6 +4,7 @@
     "strict": true,
     "module": "NodeNext",
     "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": [
         "./*"

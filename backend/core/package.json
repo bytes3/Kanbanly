@@ -1,0 +1,12 @@
+{
+  "name": "core",
+  "type": "module",
+  "packageManager": "yarn@4.9.1",
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "jest-mock-extended": "^4.0.0-beta1"
+  }
+}

@@ -59,4 +59,7 @@ const getGithubEmail = async (accessToken: string) => {
   }
 };
 
-serve(app)
+serve({
+  fetch: app.fetch,
+  port: 3001
+})

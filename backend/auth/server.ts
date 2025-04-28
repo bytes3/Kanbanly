@@ -1,5 +1,5 @@
 import {issuer} from "@openauthjs/openauth";
-import {subjects} from "./subjects.ts";
+import {subjects} from "./subjects";
 import {GithubProvider} from "@openauthjs/openauth/provider/github";
 import {MemoryStorage} from "@openauthjs/openauth/storage/memory"
 

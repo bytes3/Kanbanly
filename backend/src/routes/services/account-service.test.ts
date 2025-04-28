@@ -1,6 +1,6 @@
-import {AccountRepository} from "@/backend/core/repositories/account-repository.ts";
+import {AccountRepository} from "@/backend/core/repositories/account-repository";
 import {mock} from "jest-mock-extended"
-import {Account} from "@/backend/core/entity/account.ts";
+import {Account} from "@/backend/core/entity/account";
 import { IAccountService } from "./account-service";
 
 describe('Register register', () => {

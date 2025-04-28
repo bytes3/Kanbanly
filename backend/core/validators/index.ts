@@ -1,1 +1,1 @@
-export * from "./register.ts";
+export * from "./register";

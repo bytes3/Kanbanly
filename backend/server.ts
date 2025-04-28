@@ -1,6 +1,5 @@
 import {Hono} from 'hono'
-import {serve} from "@hono/node-server";
-import registerRoute from "./src/routes/register-route.ts";
+import registerRoute from "./src/routes/register-route";
 
 const app = new Hono()
 

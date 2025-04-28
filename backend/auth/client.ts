@@ -1,7 +1,7 @@
 import {createClient} from "@openauthjs/openauth/client"
 import {serve} from "@hono/node-server";
 import {Hono} from "hono";
-import { subjects } from "./subjects.ts"
+import { subjects } from "./subjects"
 
 (async () => {
   const client = createClient({

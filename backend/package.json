@@ -1,18 +1,23 @@
 {
-  "name": "account",
+  "name": "backend",
   "scripts": {
-    "dev:account": "node index.ts"
+    "dev:server": "PORT=3000 bun server.ts",
+    "dev:auth": "PORT=3001 bun auth/server.ts"
   },
   "type": "module",
   "dependencies": {
     "@hono/node-server": "^1.14.1",
     "@hono/zod-validator": "^0.4.3",
+    "@openauthjs/openauth": "^0.4.3",
+    "@types/aws-lambda": "8.10.148",
+    "arctic": "^3.6.0",
     "dotenv": "^16.4.1",
     "hono": "^4.7.7",
+    "node-fetch": "^3.3.2",
+    "valibot": "^1.0.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19"
   },
   "packageManager": "yarn@4.9.1"
 }

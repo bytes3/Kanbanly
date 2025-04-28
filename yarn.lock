@@ -2014,6 +2014,55 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oslojs/asn1@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@oslojs/asn1@npm:1.0.0"
+  dependencies:
+    "@oslojs/binary": "npm:1.0.0"
+  checksum: 10c0/993856b931cb0087fa6a6323f09de388aa20fbab3322acdb178a7c35fcd05983c44c7a47bac7364cd96b45125c27586265e8fc9fec733d3183ffc56b6bec2634
+  languageName: node
+  linkType: hard
+
+"@oslojs/binary@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@oslojs/binary@npm:1.0.0"
+  checksum: 10c0/d416a393af23f42b50c6f8412a3a6d94a84707c2006511abce1c4bed680c22ed2247ccb442b09237fa78ca06c355875573d1c08ccba2942f292ec0534310e4f8
+  languageName: node
+  linkType: hard
+
+"@oslojs/crypto@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@oslojs/crypto@npm:1.0.1"
+  dependencies:
+    "@oslojs/asn1": "npm:1.0.0"
+    "@oslojs/binary": "npm:1.0.0"
+  checksum: 10c0/a1b3e4875f3df8bf357dd2b59e1d55ced099227bbeb0975b48bf8e001002780575c5df9e7c174bcc42f89713ed9ad4a965e181e835ff569ccaa3b258781a615b
+  languageName: node
+  linkType: hard
+
+"@oslojs/encoding@npm:0.4.1":
+  version: 0.4.1
+  resolution: "@oslojs/encoding@npm:0.4.1"
+  checksum: 10c0/e3ccee039f385cca8a53afb1584c85d66d3685e20142649aab8f6e7f71ea11e026861e60e3d61de8d34a78adf9049e6da6813e3de51ba2b86239a4200c08ee76
+  languageName: node
+  linkType: hard
+
+"@oslojs/encoding@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@oslojs/encoding@npm:1.1.0"
+  checksum: 10c0/5553a0974dca60e1a8b247b7b97abcb141cc7ee4e22444f424a07921d6a5f76a43c316f3ee669222787fdef6549f8749cc6d68ff5a631e2542521c56fe36417f
+  languageName: node
+  linkType: hard
+
+"@oslojs/jwt@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@oslojs/jwt@npm:0.2.0"
+  dependencies:
+    "@oslojs/encoding": "npm:0.4.1"
+  checksum: 10c0/aadcda3e5274293e07fca6842ef4f4dccecce11b1f7e655ad2f042983233eb5d121db981e9f64451b66abb417b66744371ce29743282df7319d40b420c3c93be
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -2660,19 +2709,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"account@workspace:backend/account":
-  version: 0.0.0-use.local
-  resolution: "account@workspace:backend/account"
-  dependencies:
-    "@hono/node-server": "npm:^1.14.1"
-    "@hono/zod-validator": "npm:^0.4.3"
-    "@types/node": "npm:^20.11.19"
-    dotenv: "npm:^16.4.1"
-    hono: "npm:^4.7.7"
-    zod: "npm:^3.24.3"
-  languageName: unknown
-  linkType: soft
-
 "acorn-globals@npm:^7.0.0":
   version: 7.0.1
   resolution: "acorn-globals@npm:7.0.1"
@@ -2866,6 +2902,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arctic@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "arctic@npm:3.6.0"
+  dependencies:
+    "@oslojs/crypto": "npm:1.0.1"
+    "@oslojs/encoding": "npm:1.1.0"
+    "@oslojs/jwt": "npm:0.2.0"
+  checksum: 10c0/e0eca114aac4fcbd04368a848f24c2bcef1ec705ed023a01e9071ce7f020d7d254b333e8b98cab835e7624ea87522d9c78a692ebf5a413076df27f19d8e1ca88
+  languageName: node
+  linkType: hard
+
 "arg@npm:^5.0.2":
   version: 5.0.2
   resolution: "arg@npm:5.0.2"
@@ -2932,18 +2979,6 @@ __metadata:
   checksum: 10c0/4c058baf6df1bc5a1697cf182e2029c58cd99975288a13f9e70068ef5d6f4e1f1fd7c4d2c3c4912eae44797d1725be9700995736deca441b39f3e66d8dee97ef
   languageName: node
   linkType: hard
-
-"auth@workspace:backend/auth":
-  version: 0.0.0-use.local
-  resolution: "auth@workspace:backend/auth"
-  dependencies:
-    "@openauthjs/openauth": "npm:^0.4.3"
-    "@types/aws-lambda": "npm:8.10.148"
-    hono: "npm:^4.7.6"
-    node-fetch: "npm:^3.3.2"
-    valibot: "npm:^1.0.0"
-  languageName: unknown
-  linkType: soft
 
 "aws4fetch@npm:1.0.20":
   version: 1.0.20
@@ -3134,6 +3169,25 @@ __metadata:
   checksum: 10c0/ec5fd0276b5630b05f0c14bb97cc3815c6b31600c683ebb51372e54dcb776cff790bdeeabd5b8d01ede375a040337ccbf6a3ccd68d3a34219125945e167ad943
   languageName: node
   linkType: hard
+
+"backend@workspace:backend":
+  version: 0.0.0-use.local
+  resolution: "backend@workspace:backend"
+  dependencies:
+    "@hono/node-server": "npm:^1.14.1"
+    "@hono/zod-validator": "npm:^0.4.3"
+    "@jest/globals": "npm:^29.7.0"
+    "@openauthjs/openauth": "npm:^0.4.3"
+    "@types/aws-lambda": "npm:8.10.148"
+    "@types/node": "npm:^20.11.19"
+    arctic: "npm:^3.6.0"
+    dotenv: "npm:^16.4.1"
+    hono: "npm:^4.7.7"
+    node-fetch: "npm:^3.3.2"
+    valibot: "npm:^1.0.0"
+    zod: "npm:^3.24.3"
+  languageName: unknown
+  linkType: soft
 
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
@@ -3743,16 +3797,6 @@ __metadata:
   checksum: 10c0/92d2c748d3dd1c4e3b6cee6b6683b9212db9bc0a6574d933781210daf3baaeb76334ed4636eb8935b45802aa8d9235ab604c9a262694e02a2fa17ad0f6976829
   languageName: node
   linkType: hard
-
-"core@workspace:backend/core":
-  version: 0.0.0-use.local
-  resolution: "core@workspace:backend/core"
-  dependencies:
-    "@hono/zod-validator": "npm:^0.4.3"
-    jest-mock-extended: "npm:^4.0.0-beta1"
-    zod: "npm:^3.24.3"
-  languageName: unknown
-  linkType: soft
 
 "cosmiconfig@npm:^5.0.5":
   version: 5.2.1
@@ -5248,7 +5292,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.7.6, hono@npm:^4.7.7":
+"hono@npm:^4.7.7":
   version: 4.7.7
   resolution: "hono@npm:4.7.7"
   checksum: 10c0/16edcd88055ae0f006f4fe00f6a74f4b0861711fe51aa9231e8b1b7b4196d43a9a2bca4e83d2a2d106a04d342b504939c8fd1d893fec70bf2bfa0da5ab59bd55
@@ -6489,6 +6533,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.25.2"
     "@expo/vector-icons": "npm:^14.0.2"
+    "@jest/globals": "npm:^29.7.0"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
     "@types/jest": "npm:^29.5.12"
@@ -6508,6 +6553,7 @@ __metadata:
     expo-web-browser: "npm:~14.0.2"
     jest: "npm:^29.2.1"
     jest-expo: "npm:~52.0.6"
+    jest-mock-extended: "npm:^4.0.0-beta1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     react-native: "npm:0.76.9"

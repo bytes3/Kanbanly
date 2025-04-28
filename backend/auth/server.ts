@@ -1,10 +1,7 @@
-import {serve} from "@hono/node-server"
 import {issuer} from "@openauthjs/openauth";
 import {subjects} from "./subjects.ts";
 import {GithubProvider} from "@openauthjs/openauth/provider/github";
 import {MemoryStorage} from "@openauthjs/openauth/storage/memory"
-import {CodeUI} from "@openauthjs/openauth/ui/code"
-import {CodeProvider} from "@openauthjs/openauth/provider/code"
 
 const storage = MemoryStorage({
   persist: "./persist.json"
@@ -59,7 +56,4 @@ const getGithubEmail = async (accessToken: string) => {
   }
 };
 
-serve({
-  fetch: app.fetch,
-  port: 3001
-})
+export default app

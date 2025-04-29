@@ -1,6 +1,6 @@
 import {Hono} from 'hono'
-import {IAccountService} from "@/backend/src/routes/services/account-service";
-import {IAccountRepository} from "@/backend/src/routes/repositories/account-repository";
+import {IAccountService} from "@/backend/src/services/account-service";
+import {IAccountRepository} from "@/backend/src/repositories/account-repository";
 import {registerValidator} from "@/backend/core/validators";
 
 const app = new Hono()

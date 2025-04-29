@@ -20,13 +20,13 @@ describe('Register register', () => {
         expect(result).toBe(account)
     });
 
-    it("should throw when account existing", () => {
+    it("should return null when account existing", () => {
         const accountRepository = mock<AccountRepository>()
         const accountService = new IAccountService(accountRepository)
         accountRepository.findAccountById.mockReturnValue(account)
 
-        expect(() => {
-            accountService.register(account.email)
-        }).toThrow(new Error("Account is already existing"))
+        const result = accountService.register(account.email)
+
+        expect(result).toBeNull()
     })
 });

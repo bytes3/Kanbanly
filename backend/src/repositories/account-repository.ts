@@ -1,12 +1,12 @@
-import { Account } from "@/backend/core/entity/account";
+import {Account} from "@/backend/core/entity/account";
 import {AccountRepository} from "@/backend/core/repositories/account-repository";
 
 export class IAccountRepository implements AccountRepository {
     create(email: string): Account {
-        throw new Error("Not implemented.");
+        return {id: "123", email}
     }
 
     findAccountById(email: string): Account | null {
-        throw new Error("Not implemented.");
+        return null
     }
 }

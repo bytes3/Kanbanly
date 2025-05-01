@@ -1,7 +1,7 @@
 import {AccountRepository} from "@/backend/core/repositories/account-repository";
 import {mock} from "jest-mock-extended"
 import {Account} from "@/backend/core/entity/account";
-import { IAccountService } from "./account-service";
+import {IAccountService} from "./account-service";
 
 describe('Register register', () => {
     const account: Account = {
@@ -20,13 +20,13 @@ describe('Register register', () => {
         expect(result).toBe(account)
     });
 
-    it("should return null when account existing", () => {
+    it("should return the account existing", () => {
         const accountRepository = mock<AccountRepository>()
         const accountService = new IAccountService(accountRepository)
         accountRepository.findAccountById.mockReturnValue(account)
 
         const result = accountService.register(account.email)
 
-        expect(result).toBeNull()
+        expect(result).toBe(account)
     })
 });

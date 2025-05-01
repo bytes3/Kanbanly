@@ -9,11 +9,11 @@ export class IAccountService implements AccountService {
         this.accountRepository = accountRepository
     }
 
-    register(email: string): Account | null {
+    register(email: string): Account {
         const account = this.accountRepository.findAccountById(email)
 
         if (account) {
-            return null
+            return account
         }
 
         return this.accountRepository.create(email)

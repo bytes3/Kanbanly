@@ -5,7 +5,7 @@ import { subjects } from "./subjects";
 
 (async () => {
   const client = createClient({
-    clientID: "my-client",
+    clientID: "Ov23lir35gvAzMMD4Xyi",
     issuer: "http://localhost:3001", // url to the OpenAuth server
   });
 

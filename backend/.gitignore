@@ -1,3 +1,2 @@
-*.env
-
-/src/generated/prisma
+.env
+./src/generated/prisma

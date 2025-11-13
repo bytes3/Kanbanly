@@ -1,52 +1,85 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
-import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
-import { Button, StyleSheet } from "react-native";
+import { exchangeCodeAsync, makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import { Button, View, Text } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const discovery = {
-  authorizationEndpoint: "http://192.168.1.131:3000/authorize",
-  tokenEndpoint: "http://192.168.1.131:3000/token",
+  authorizationEndpoint: "http://localhost:3000/authorize",
+  tokenEndpoint: "http://localhost:3000/token",
 };
 
-export default function GitHub() {
-  // const [authTokens, setAuthTokens] = useState({
-  //   access_token: "",
-  //   refresh_token: "",
-  // });
+const redirectUri = makeRedirectUri({
+  scheme: "kanbanly",
+})
+
+export default function Index() {
+  const [authTokens, setAuthTokens] = useState({
+    access_token: "",
+    refresh_token: "",
+  })
 
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: "Ov23lir35gvAzMMD4Xyi",
+      clientId: "clientid",
       usePKCE: true,
-      redirectUri: makeRedirectUri({
-        scheme: "kanbanly",
-      }),
+      redirectUri: redirectUri,
     },
     discovery,
-  );
+  )
 
   useEffect(() => {
-    if (response?.type === "success") {
-      const { code } = response.params;
-      console.log(code);
+    const exchange = async (exchangeTokenReq: any) => {
+      console.log("Exchange Token Request: ", exchangeTokenReq)
+      console.log("Code Verifier: ", request?.codeVerifier)
+      try {
+        const exchangeTokenResponse = await exchangeCodeAsync(
+          {
+            clientId: "kanbanly",
+            code: exchangeTokenReq,
+            redirectUri: redirectUri,
+            extraParams: {
+              code_verifier: request?.codeVerifier ?? '',
+            },
+          },
+          discovery,
+        )
+        console.log("Exchange Token Response: ", exchangeTokenResponse)
+
+        setAuthTokens({
+          access_token: exchangeTokenResponse.accessToken,
+          refresh_token: exchangeTokenResponse.refreshToken ?? '',
+        })
+      } catch (error) {
+        console.error("error", error)
+      }
     }
-  }, [response]);
+
+    if (response) {
+      if (response.type === 'error') {
+        console.error(
+          "Authentication error",
+          response.params.error_description || "something went wrong",
+        )
+      }
+      if (response.type === "success") {
+        exchange(response.params.code)
+      }
+    }
+  }, [request, response])
 
   return (
-    <Button
-      disabled={!request}
-      title="Login"
-      onPress={() => {
-        promptAsync().then((r) => console.log("promtAsync:", r));
-      }}
-    />
-  );
+    <View className="flex flex-1 justify-center items-center">
+      <View>
+        <Button
+          title="login"
+          onPress={() => {
+            promptAsync()
+          }}
+        />
+        <Text>AuthTokens: {JSON.stringify(authTokens)}</Text>
+      </View>
+    </View>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

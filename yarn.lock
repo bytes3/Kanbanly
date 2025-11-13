@@ -2216,6 +2216,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^6.19.0":
+  version: 6.19.0
+  resolution: "@prisma/client@npm:6.19.0"
+  peerDependencies:
+    prisma: "*"
+    typescript: ">=5.1.0"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10c0/c3173fae0195adc952ab47d30120b5ae397b71997b9b60c2ba78fb10a99d10bda2996869c311164a08311ae0bbde41b86806898e49648df3fe713fbe8cb4659e
+  languageName: node
+  linkType: hard
+
 "@radix-ui/primitive@npm:1.1.3":
   version: 1.1.3
   resolution: "@radix-ui/primitive@npm:1.1.3"
@@ -2976,6 +2991,15 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.28.2"
   checksum: 10c0/b52d7d4e8fc6a9018fe7361c4062c1c190f5778cf2466817cb9ed19d69fbbb54f9a85ffedeb748ed8062d2cf7d4cc088ee739848f47c57740de1c48cbf0d0994
+  languageName: node
+  linkType: hard
+
+"@types/bcrypt@npm:^6":
+  version: 6.0.0
+  resolution: "@types/bcrypt@npm:6.0.0"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/48b66408838f5eb59791da5a77260cef59a5291ce0945f2caa3b5a6158c44b321b684b4aa7dce771852c63271c766cadd587374273451b300377a17015c1d51d
   languageName: node
   linkType: hard
 
@@ -4040,7 +4064,10 @@ __metadata:
     "@hono/node-server": "npm:^1.19.5"
     "@hono/zod-validator": "npm:^0.7.4"
     "@openauthjs/openauth": "npm:^0.4.3"
+    "@prisma/client": "npm:^6.19.0"
+    "@types/bcrypt": "npm:^6"
     arctic: "npm:^2.3.4"
+    bcryptjs: "npm:^3.0.3"
     dotenv: "npm:^17.2.3"
     hono: "npm:^4.10.4"
     node-fetch: "npm:^3.3.2"
@@ -4069,6 +4096,15 @@ __metadata:
   bin:
     baseline-browser-mapping: dist/cli.js
   checksum: 10c0/61f69897e6c6f429991a08c2228ff5398eb2397124f9458ea3d1f1b09d79141cbe6bc11df55c12b3d95da7f25cae576dd17323509edcefd5e9373ecab0085808
+  languageName: node
+  linkType: hard
+
+"bcryptjs@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "bcryptjs@npm:3.0.3"
+  bin:
+    bcrypt: bin/bcrypt
+  checksum: 10c0/127c94699f07eab5fbbb89d600c3f0e36ae6fd001e028139740b41fffb62a23a2743523fb88f442ae3308a27d4843b97ccb9e436d78f5c5899be187d0972c6d5
   languageName: node
   linkType: hard
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ ! $(command -v 'goose') ]; then
+  echo -e "\e[32m"
+  echo "ERROR: 'goose' command is not found in your system."
+  echo "Please install goose:"
+  echo -e "\e[0m"
+
+  echo "https://github.com/pressly/goose"
+  exit 1
+fi
+
+case "$1" in
+  create) goose create "$2" sql ;;
+  creatego) goose create "$2" go ;;
+  *) goose "$@" ;;
+esac

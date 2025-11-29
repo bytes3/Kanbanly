@@ -3,7 +3,6 @@ import { Account } from "@/backend/core/entity/account";
 import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
 import { AccountAlreadyExist, ServerError } from "@/backend/core/errors/errors";
 import { IAccountService } from "./account-service";
-import { password } from "bun";
 
 describe("Register account", () => {
   it("should register the account successfully", async () => {

@@ -1,7 +1,6 @@
 import { AccountRepository } from "@/backend/core/repositories/account-repository";
 import { AccountService } from "@/backend/core/services/account-service";
 import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
-import { HTTPException } from "hono/http-exception";
 import { AccountAlreadyExist, ServerError } from "@/backend/core/errors/errors";
 import bcrypt from "bcryptjs";
 

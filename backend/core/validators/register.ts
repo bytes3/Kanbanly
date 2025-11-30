@@ -1,16 +1,17 @@
 import { z } from "zod";
-import { zValidator } from "@hono/zod-validator";
+import { sValidator } from "@hono/standard-validator";
 
 export const registerSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
+  password: z.string().min(8).max(64)
 });
 
-export const registerValidator = zValidator(
+export const registerValidator = sValidator(
   "json",
   registerSchema,
   (result, c) => {
     if (!result.success) {
-      return c.text("Invalid email!", 400);
+      return c.text("Invalid email!\n", 400);
     }
-  },
+  }
 );

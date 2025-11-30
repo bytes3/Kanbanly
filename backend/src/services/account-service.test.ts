@@ -1,8 +1,8 @@
-import { describe, it, expect, mock } from "bun:test";
-import { Account } from "@/backend/core/entity/account";
+import { describe, it, expect } from "bun:test";
 import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
 import { AccountAlreadyExist, ServerError } from "@/backend/core/errors/errors";
 import { IAccountService } from "./account-service";
+import { createTestContext } from "../test/utils";
 
 describe("Register account", () => {
   it("should register the account successfully", async () => {
@@ -44,22 +44,4 @@ describe("Register account", () => {
       await accountService.register(account.email, "password");
     }).toThrow(expectedError);
   });
-});
-
-const createTestContext = (
-  account: Account = {
-    id: "123124",
-    email: "testuser@test.ro",
-    createdAt: Date.now().toString()
-  }
-) => ({
-  account,
-  accountRepository: {
-    findAccountByEmail: mock(async (id: string): Promise<Account | null> => {
-      return { ...account, id };
-    }),
-    create: mock(async (email: string, password: string): Promise<Account> => {
-      return { ...account, email };
-    })
-  }
 });

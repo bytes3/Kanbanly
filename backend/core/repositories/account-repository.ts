@@ -1,6 +1,6 @@
 import { Account } from "@/backend/core/entity/account";
 
 export interface AccountRepository {
-  create: (email: string) => Account;
-  findAccountById: (email: string) => Account | null;
+  create: (email: string, passward: string) => Promise<Account>;
+  findAccountByEmail: (email: string) => Promise<Account | null>;
 }

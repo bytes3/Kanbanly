@@ -5,13 +5,14 @@ import { registerValidator } from "@/backend/core/validators";
 
 const app = new Hono();
 
-app.put("/", registerValidator, (context) => {
+app.post("/", registerValidator, async (context) => {
   const accountRepository = new IAccountRepository();
   const accountService = new IAccountService(accountRepository);
   const data = context.req.valid("json");
 
-  const account = accountService.register(data.email);
+  const account = await accountService.register(data.email, data.password);
 
+  context.status(200);
   return context.json(account);
 });
 

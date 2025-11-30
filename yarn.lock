@@ -1686,12 +1686,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/node-server@npm:^1.19.5":
-  version: 1.19.5
-  resolution: "@hono/node-server@npm:1.19.5"
+"@hono/standard-validator@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@hono/standard-validator@npm:0.2.0"
   peerDependencies:
-    hono: ^4
-  checksum: 10c0/ee935ba923bb8bc3e0453d08a59e356b595c1ddffef3c96f8b9a4199f6b587c311743fb576d8236aa57d638012d7251c1f1b1ebbbd488358a951ee1a6b6991e8
+    "@standard-schema/spec": 1.0.0
+    hono: ">=3.9.0"
+  checksum: 10c0/1ead4abd04486dbe91fefd901769ece72713bb328690c663f5ed3a3f2b6cedbf38cdce2a96c59a4b289f0970feef996efa10fe0de68b70ef24518bab4d34a3ed
   languageName: node
   linkType: hard
 
@@ -2143,20 +2144,6 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 10c0/c90935d5ce670c87b6b14fab04a965a3b8137e585f8b2a6257263bd7f97756dd736cb165bb470e5156a9e718ecd99413dccc54b1138c1a46d6ec7cf325982fe5
-  languageName: node
-  linkType: hard
-
-"@openauthjs/openauth@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "@openauthjs/openauth@npm:0.4.3"
-  dependencies:
-    "@standard-schema/spec": "npm:1.0.0-beta.3"
-    aws4fetch: "npm:1.0.20"
-    jose: "npm:5.9.6"
-  peerDependencies:
-    arctic: ^2.2.2
-    hono: ^4.0.0
-  checksum: 10c0/64f6352ffc25f179c57fcb25191f8b65a57ecf3e84bce24e7df3a41228c96689da0068b3177cab57b7f316b16404455e10392b3e8b8079ceb38886950960ea91
   languageName: node
   linkType: hard
 
@@ -2915,10 +2902,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:1.0.0-beta.3":
-  version: 1.0.0-beta.3
-  resolution: "@standard-schema/spec@npm:1.0.0-beta.3"
-  checksum: 10c0/ae0a4e2a733d1267998f621b4d769b55350ea1c9da8353997b49bceff383015ce6f86adfc32be6dd522e1bbb3e06c8266b8cb334db4aaffd97f7ee92261deca4
+"@tkoehlerlg/bun-mock-extended@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tkoehlerlg/bun-mock-extended@npm:1.0.0"
+  dependencies:
+    ts-essentials: "npm:^10.0.2"
+  peerDependencies:
+    bun-types: ">=1.0.0"
+  checksum: 10c0/b85030645d3223cdc9a161f7068121e027df9732f024ff22b06225216e7c52eae40c6a59d7e07cada85b50e01c22cccd405012219261716555ea820a8a0a925b
   languageName: node
   linkType: hard
 
@@ -3856,13 +3847,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws4fetch@npm:1.0.20":
-  version: 1.0.20
-  resolution: "aws4fetch@npm:1.0.20"
-  checksum: 10c0/a4eac7bd0d1c3e611c17ed1ef41ac0b48c0a8e74a985ad968c071e74d94586d3572edc943b43fa5ca756c686ea73baa2f48e264d657bb8c2e95c8e0037d48a87
-  languageName: node
-  linkType: hard
-
 "babel-jest@npm:^29.2.1, babel-jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "babel-jest@npm:29.7.0"
@@ -4055,9 +4039,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "backend@workspace:backend"
   dependencies:
-    "@hono/node-server": "npm:^1.19.5"
+    "@hono/standard-validator": "npm:^0.2.0"
     "@hono/zod-validator": "npm:^0.7.4"
-    "@openauthjs/openauth": "npm:^0.4.3"
+    "@jest/globals": "npm:^29.7.0"
+    "@tkoehlerlg/bun-mock-extended": "npm:^1.0.0"
     "@types/bcrypt": "npm:^6"
     "@types/bun": "npm:^1.3.3"
     arctic: "npm:^2.3.4"
@@ -7775,13 +7760,6 @@ __metadata:
   version: 0.16.1
   resolution: "jimp-compact@npm:0.16.1"
   checksum: 10c0/2d73bb927d840ce6dc093d089d770eddbb81472635ced7cad1d7c4545d8734aecf5bd3dedf7178a6cfab4d06c9d6cbbf59e5cb274ed99ca11cd4835a6374f16c
-  languageName: node
-  linkType: hard
-
-"jose@npm:5.9.6":
-  version: 5.9.6
-  resolution: "jose@npm:5.9.6"
-  checksum: 10c0/d6bcd8c7d655b5cda8e182952a76f0c093347f5476d74795405bb91563f7ab676f61540310dd4b1531c60d685335ceb600571a409551d2cbd2ab3e9f9fbf1e4d
   languageName: node
   linkType: hard
 

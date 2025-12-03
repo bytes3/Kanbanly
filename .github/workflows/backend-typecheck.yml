@@ -24,11 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Change current directory
-        run: cd ./backend
-
       - name: Install dependencies
         run: yarn install
 
       - name: Type check (syntax and types)
-        run: bunx --bun tsc -p tsconfig.backend.json --noEmit
+        run: bunx --bun tsc -p ./backend/tsconfig.backend.json --noEmit

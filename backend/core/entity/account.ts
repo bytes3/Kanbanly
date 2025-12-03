@@ -3,3 +3,5 @@ export interface Account {
   email: string;
   createdAt?: string;
 }
+
+export type Token = string;

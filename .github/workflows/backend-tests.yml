@@ -28,13 +28,9 @@ jobs:
         working-directory: backend
         run: yarn install --immutable
 
-      - name: pwd test
-        working-directory: backend
-        run: pwd; ls -la
-
       - name: Type check (syntax and types)
         working-directory: backend
-        run: cd backend && bunx --bun tsc -p tsconfig.backend.json --noEmit
+        run: bunx --bun tsc -p tsconfig.backend.json --noEmit
 
   test:
     runs-on: ubuntu-latest

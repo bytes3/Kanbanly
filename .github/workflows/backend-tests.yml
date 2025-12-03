@@ -24,6 +24,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-yarn-
+
       - name: Install dependencies
         working-directory: backend
         run: yarn install --immutable
@@ -45,10 +53,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-yarn-
+
       - name: Install dependencies
         working-directory: backend
         run: yarn install --immutable
 
       - name: Run unit tests
         working-directory: backend
-        run: cd backend && bun test
+        run: bun test

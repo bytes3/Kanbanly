@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Install system tools
-        run: apk add --no-cache git yarn
+        run: apk add --no-cache git yarn tar gzip
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
 
     steps:
       - name: Install system tools
-        run: apk add --no-cache git yarn
+        run: apk add --no-cache git yarn tar gzip
 
       - name: Checkout repository
         uses: actions/checkout@v4

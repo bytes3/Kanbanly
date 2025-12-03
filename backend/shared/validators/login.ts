@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { sValidator } from "@hono/standard-validator";
+import { getValidationErrorMessages } from "../utils/validator-utils";
 
 export const loginSchema = z.object({
   email: z.email(),
@@ -8,17 +9,8 @@ export const loginSchema = z.object({
 
 export const loginValidator = sValidator("json", loginSchema, (result, c) => {
   if (!result.success) {
-    const { error } = result;
+    const errors = getValidationErrorMessages(result.error);
 
-    let errors = {};
-    const messages = error.forEach(
-      (value: { path: string; message: string }) => {
-        errors[value.path] = value.message;
-
-        return value;
-      }
-    );
-
-    return c.json(messages, 400);
+    return c.json(errors, 400);
   }
 });

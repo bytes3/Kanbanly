@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { sValidator } from "@hono/standard-validator";
+import { getValidationErrorMessages } from "../utils/validator-utils";
 
 export const registerSchema = z.object({
   email: z.email(),
@@ -11,10 +12,9 @@ export const registerValidator = sValidator(
   registerSchema,
   (result, c) => {
     if (!result.success) {
-      const { error } = result;
-      const messages = error.map((value) => value.message);
+      const errors = getValidationErrorMessages(result.error);
 
-      return c.json({ message: messages }, 400);
+      return c.json(errors, 400);
     }
   }
 );

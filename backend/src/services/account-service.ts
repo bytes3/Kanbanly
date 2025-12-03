@@ -9,8 +9,7 @@ import {
   AccountLoginFailure,
   AccountNotFound,
   MissingEnviermentVariable,
-  ServerError,
-  UserError
+  ServerError
 } from "@/backend/core/errors/errors";
 import bcrypt from "bcryptjs";
 import { Token } from "@/backend/core/entity/account";

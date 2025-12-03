@@ -11,7 +11,10 @@ export const registerValidator = sValidator(
   registerSchema,
   (result, c) => {
     if (!result.success) {
-      return c.text("Invalid email!\n", 400);
+      const { error } = result;
+      const messages = error.map((value) => value.message);
+
+      return c.json({ message: messages }, 400);
     }
   }
 );

@@ -2,7 +2,7 @@ name: Backend Unit Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
     paths:
       - "backend/**"
       - ".github/workflows/backend-tests.yml"
@@ -21,14 +21,14 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Install git
-        run: apk add --no-cache git
+      - name: Install tools
+        run: apk add --no-cache git yarn
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: bun install
+        run: yarn install
 
       - name: Run unit tests
         run: bun test

@@ -1,8 +1,8 @@
-name: Backend Unit Tests
+name: Backend CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
     paths:
       - "backend/**"
       - ".github/workflows/backend-tests.yml"
@@ -12,23 +12,43 @@ on:
       - ".github/workflows/backend-tests.yml"
 
 jobs:
-  test:
+  typecheck:
     runs-on: ubuntu-latest
     container:
       image: oven/bun:1.1.30-alpine
-    defaults:
-      run:
-        working-directory: backend
 
     steps:
-      - name: Install tools
+      - name: Install system tools
         run: apk add --no-cache git yarn
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: yarn install
+        working-directory: backend
+        run: yarn install --immutable
+
+      - name: Type check (syntax and types)
+        working-directory: backend
+        run: cd backend && bunx --bun tsc -p tsconfig.backend.json --noEmit
+
+  test:
+    runs-on: ubuntu-latest
+    needs: typecheck
+    container:
+      image: oven/bun:1.1.30-alpine
+
+    steps:
+      - name: Install system tools
+        run: apk add --no-cache git yarn
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        working-directory: backend
+        run: yarn install --immutable
 
       - name: Run unit tests
-        run: bun test
+        working-directory: backend
+        run: cd backend && bun test

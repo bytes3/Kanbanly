@@ -1,11 +1,36 @@
 import { HTTPException } from "hono/http-exception";
-import { AccountRegisterMessage } from "../entity/server-message";
+import {
+  AccountLoginMessage,
+  AccountRegisterMessage
+} from "../entity/server-message";
 
-export class ServerError extends Error {}
+export class ServerError extends Error {
+  constructor(message: string, cause?: Error) {
+    super(message, { cause });
+  }
+}
 export class UserError extends HTTPException {}
+
+export class MissingEnviermentVariable extends ServerError {
+  constructor(envName: string) {
+    super(`Missing variable for ${envName}`);
+  }
+}
 
 export class AccountAlreadyExist extends UserError {
   constructor() {
     super(400, { message: AccountRegisterMessage.alreadyExist });
+  }
+}
+
+export class AccountLoginFailure extends UserError {
+  constructor() {
+    super(401, { message: AccountLoginMessage.wrongPassword });
+  }
+}
+
+export class AccountNotFound extends UserError {
+  constructor() {
+    super(401, { message: AccountLoginMessage.wrongEmail });
   }
 }

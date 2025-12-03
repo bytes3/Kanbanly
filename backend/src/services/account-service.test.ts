@@ -1,6 +1,14 @@
 import { describe, it, expect } from "bun:test";
-import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
-import { AccountAlreadyExist, ServerError } from "@/backend/core/errors/errors";
+import {
+  AccountLoginMessage,
+  AccountRegisterMessage
+} from "@/backend/core/entity/server-message";
+import {
+  AccountAlreadyExist,
+  AccountLoginFailure,
+  AccountNotFound,
+  ServerError
+} from "@/backend/core/errors/errors";
 import { IAccountService } from "./account-service";
 import { createTestContext } from "../test/utils";
 
@@ -42,6 +50,50 @@ describe("Register account", () => {
 
     expect(async () => {
       await accountService.register(account.email, "password");
+    }).toThrow(expectedError);
+  });
+});
+
+describe("Login account", () => {
+  it("should login the user successfully", async () => {
+    const { account, accountRepository } = createTestContext();
+    const accountService = new IAccountService(accountRepository);
+
+    const token = await accountService.login(account.email, "password");
+
+    expect(token).toBeString();
+    expect(token.length >= 50).toBe(true);
+  });
+
+  it("should fail to login if the account doesn't exit", async () => {
+    const expectedError = new AccountNotFound();
+    const { account, accountRepository } = createTestContext();
+    accountRepository.findAccountByEmail.mockResolvedValue(null);
+    const accountService = new IAccountService(accountRepository);
+
+    expect(async () => {
+      await accountService.login(account.email, "password");
+    }).toThrow(expectedError);
+  });
+
+  it("should fail to login if the account password doesn't match", async () => {
+    const expectedError = new AccountLoginFailure();
+    const { account, accountRepository } = createTestContext();
+    const accountService = new IAccountService(accountRepository);
+
+    expect(async () => {
+      await accountService.login(account.email, "wrong_password");
+    }).toThrow(expectedError);
+  });
+
+  it("should return server error", async () => {
+    const expectedError = new ServerError(AccountLoginMessage.serverError);
+    const { account, accountRepository } = createTestContext();
+    accountRepository.findAccountByEmail.mockRejectedValue(new Error());
+    const accountService = new IAccountService(accountRepository);
+
+    expect(async () => {
+      await accountService.login(account.email, "password");
     }).toThrow(expectedError);
   });
 });

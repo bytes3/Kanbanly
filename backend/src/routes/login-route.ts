@@ -10,10 +10,10 @@ app.post("/", loginValidator, async (context) => {
   const accountService = new IAccountService(accountRepository);
   const data = context.req.valid("json");
 
-  const account = await accountService.login(data.email, data.password);
+  const token = await accountService.login(data.email, data.password);
 
   context.status(200);
-  return context.json(account);
+  return context.json({ token });
 });
 
 export default app;

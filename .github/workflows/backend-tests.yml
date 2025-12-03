@@ -18,10 +18,9 @@ jobs:
       image: oven/bun:1.1.30-alpine
     env:
       YARN_ENABLE_GLOBAL_CACHE: true
-
     steps:
       - name: Install system tools
-        run: apk add --no-cache git yarn
+        run: apk add --no-cache git yarn tar gzip
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,10 +48,13 @@ jobs:
     needs: typecheck
     container:
       image: oven/bun:1.1.30-alpine
+    env:
+      YARN_ENABLE_GLOBAL_CACHE: true
+      SECRET_JWT: "abc"
 
     steps:
       - name: Install system tools
-        run: apk add --no-cache git yarn
+        run: apk add --no-cache git yarn tar gzip
 
       - name: Checkout repository
         uses: actions/checkout@v4

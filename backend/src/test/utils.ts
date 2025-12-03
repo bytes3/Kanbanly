@@ -1,6 +1,7 @@
-import { mock } from "bun:test";
+import { Mock, mock } from "bun:test";
 import { Account } from "@/backend/core/entity/account";
 import { AccountQueryResult } from "../db/query-results";
+import { AccountRepository } from "@/backend/core/repositories/account-repository";
 
 export const createQueryResults = () => ({
   accountQuery: {
@@ -40,4 +41,8 @@ export const createTestContext = (
       )
     }
   };
+};
+
+export type MockedAccountRepository = {
+  [K in keyof AccountRepository]: Mock<AccountRepository[K]>;
 };

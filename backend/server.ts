@@ -4,6 +4,7 @@ import { logger } from "hono/logger";
 import registerRoute from "./src/routes/register-route";
 import { UserError } from "./core/errors/errors";
 import { HTTPException } from "hono/http-exception";
+import loginRoute from "./src/routes/login-route";
 
 const app = new Hono();
 
@@ -22,7 +23,11 @@ app.onError((err, c) => {
 
   console.error(`[ERROR] [${parsedDate}]:`, err.stack);
 
-  return c.json(err.message, 500);
+  const result = {
+    message: err.message
+  };
+
+  return c.json(result, 500);
 });
 
 app.use(logger());
@@ -39,5 +44,6 @@ app.get("/home/page", async (c) => {
 });
 
 app.route("/auth/register", registerRoute);
+app.route("/auth/login", loginRoute);
 
 export default app;

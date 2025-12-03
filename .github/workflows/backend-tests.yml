@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: oven/bun:1.1.30-alpine
+    env:
+      YARN_ENABLE_GLOBAL_CACHE: true
+      SECRET_JWT: "test"
 
     steps:
       - name: Install system tools
@@ -25,13 +28,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Prepare cache directories
-        run: mkdir -p .yarn/cache
+        run: mkdir -p $HOME/.yarn/berry/cache
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v4
         with:
-          path: .yarn/cache
-          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ env.HOME }}/.yarn/berry/cache
+          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}-${{ env.YARN_ENABLE_GLOBAL_CACHE }}
           restore-keys: |
             ${{ runner.os }}-backend-yarn-
 
@@ -47,6 +50,8 @@ jobs:
     needs: typecheck
     container:
       image: oven/bun:1.1.30-alpine
+    env:
+      YARN_ENABLE_GLOBAL_CACHE: true
 
     steps:
       - name: Install system tools
@@ -56,13 +61,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Prepare cache directories
-        run: mkdir -p .yarn/cache
+        run: mkdir -p $HOME/.yarn/berry/cache
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v4
         with:
-          path: .yarn/cache
-          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ env.HOME }}/.yarn/berry/cache
+          key: ${{ runner.os }}-backend-yarn-${{ hashFiles('**/yarn.lock') }}-${{ env.YARN_ENABLE_GLOBAL_CACHE }}
           restore-keys: |
             ${{ runner.os }}-backend-yarn-
 

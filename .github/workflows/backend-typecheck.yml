@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Install git
-        run: apk add --no-cache git
+        run: apk add --no-cache git yarn
 
       - name: Checkout repository
         uses: actions/checkout@v4

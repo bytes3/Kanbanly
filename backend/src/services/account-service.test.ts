@@ -52,7 +52,7 @@ describe("Auth Tests", () => {
     it("should return server error", async () => {
       const expectedError = new ServerError(AccountRegisterMessage.serverError);
       accountRepository.findAccountByEmail.mockResolvedValue(null);
-      accountRepository.create.mockRejectedValue(new Error());
+      accountRepository.create.mockRejectedValue(expectedError);
 
       expect(async () => {
         await accountService.register(account.email, "password");
@@ -87,7 +87,7 @@ describe("Auth Tests", () => {
 
     it("should return server error", async () => {
       const expectedError = new ServerError(AccountLoginMessage.serverError);
-      accountRepository.findAccountByEmail.mockRejectedValue(new Error());
+      accountRepository.findAccountByEmail.mockRejectedValue(expectedError);
 
       expect(async () => {
         await accountService.login(account.email, "password");

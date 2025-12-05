@@ -1,8 +1,6 @@
-import {
-  AccountQueryResult,
-  AccountRepository
-} from "@/backend/core/repositories/account-repository";
+import { AccountRepository } from "@/backend/core/repositories/account-repository";
 import sql from "../db/instance";
+import { AccountQueryResult } from "../db/query-results";
 
 export class IAccountRepository implements AccountRepository {
   async findAccountByEmail(email: string): Promise<AccountQueryResult | null> {

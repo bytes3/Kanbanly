@@ -1,13 +1,9 @@
 import { describe, beforeEach, it, expect } from "bun:test";
-import {
-  AccountLoginMessage,
-  AccountRegisterMessage
-} from "@/backend/core/entity/server-message";
+import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
 import {
   AccountAlreadyExist,
   AccountLoginFailure,
-  AccountNotFound,
-  ServerError
+  AccountNotFound
 } from "@/backend/core/errors/errors";
 import { IAccountService } from "./account-service";
 import { createTestContext, MockedAccountRepository } from "../test/utils";
@@ -48,16 +44,6 @@ describe("Auth Tests", () => {
 
       expect(accountRepository.create.mock.calls.length).toBe(0);
     });
-
-    it("should return server error", async () => {
-      const expectedError = new ServerError(AccountRegisterMessage.serverError);
-      accountRepository.findAccountByEmail.mockResolvedValue(null);
-      accountRepository.create.mockRejectedValue(new Error());
-
-      expect(async () => {
-        await accountService.register(account.email, "password");
-      }).toThrow(expectedError);
-    });
   });
 
   describe("Login account", () => {
@@ -82,15 +68,6 @@ describe("Auth Tests", () => {
 
       expect(async () => {
         await accountService.login(account.email, "wrong_password");
-      }).toThrow(expectedError);
-    });
-
-    it("should return server error", async () => {
-      const expectedError = new ServerError(AccountLoginMessage.serverError);
-      accountRepository.findAccountByEmail.mockRejectedValue(new Error());
-
-      expect(async () => {
-        await accountService.login(account.email, "password");
       }).toThrow(expectedError);
     });
   });

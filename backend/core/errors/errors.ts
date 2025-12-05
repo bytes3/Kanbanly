@@ -1,7 +1,8 @@
 import { HTTPException } from "hono/http-exception";
 import {
   AccountLoginMessage,
-  AccountRegisterMessage
+  AccountRegisterMessage,
+  UserCreationMessage
 } from "../entity/server-message";
 
 export class ServerError extends Error {
@@ -32,5 +33,11 @@ export class AccountLoginFailure extends UserError {
 export class AccountNotFound extends UserError {
   constructor() {
     super(401, { message: AccountLoginMessage.wrongEmail });
+  }
+}
+
+export class UserAlreadyExist extends UserError {
+  constructor() {
+    super(400, { message: UserCreationMessage.alreadyExist });
   }
 }

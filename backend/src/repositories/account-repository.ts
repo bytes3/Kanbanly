@@ -1,5 +1,7 @@
-import { AccountRepository } from "@/backend/core/repositories/account-repository";
-import { AccountQueryResult } from "../db/query-results";
+import {
+  AccountQueryResult,
+  AccountRepository
+} from "@/backend/core/repositories/account-repository";
 import sql from "../db/instance";
 
 export class IAccountRepository implements AccountRepository {

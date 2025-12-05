@@ -14,6 +14,7 @@ import {
 import bcrypt from "bcryptjs";
 import { Token } from "@/backend/core/entity/account";
 import { sign } from "hono/jwt";
+import { handleServiceError } from "../utils/handleServiceErrors";
 
 export class IAccountService implements AccountService {
   private accountRepository: AccountRepository;
@@ -39,7 +40,7 @@ export class IAccountService implements AccountService {
         throw error;
       }
 
-      throw new ServerError(AccountRegisterMessage.serverError, error);
+      handleServiceError(AccountRegisterMessage.serverError, error);
     }
   }
 
@@ -76,7 +77,7 @@ export class IAccountService implements AccountService {
         throw error;
       }
 
-      throw new ServerError(AccountLoginMessage.serverError, error);
+      handleServiceError(AccountLoginMessage.serverError, error);
     }
   }
 }

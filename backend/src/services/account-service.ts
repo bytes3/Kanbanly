@@ -8,13 +8,12 @@ import {
   AccountAlreadyExist,
   AccountLoginFailure,
   AccountNotFound,
-  MissingEnviermentVariable,
-  ServerError
+  MissingEnviermentVariable
 } from "@/backend/core/errors/errors";
 import bcrypt from "bcryptjs";
 import { Token } from "@/backend/core/entity/account";
 import { sign } from "hono/jwt";
-import { handleServiceError } from "../utils/handleServiceErrors";
+import { handleServerError } from "../utils/handleServerErrors";
 
 export class IAccountService implements AccountService {
   private accountRepository: AccountRepository;
@@ -40,7 +39,7 @@ export class IAccountService implements AccountService {
         throw error;
       }
 
-      handleServiceError(AccountRegisterMessage.serverError, error);
+      handleServerError(AccountRegisterMessage.serverError, error);
     }
   }
 
@@ -71,13 +70,12 @@ export class IAccountService implements AccountService {
     } catch (error: any) {
       if (
         error instanceof AccountNotFound ||
-        error instanceof AccountLoginFailure ||
-        error instanceof MissingEnviermentVariable
+        error instanceof AccountLoginFailure
       ) {
         throw error;
       }
 
-      handleServiceError(AccountLoginMessage.serverError, error);
+      handleServerError(AccountLoginMessage.serverError, error);
     }
   }
 }

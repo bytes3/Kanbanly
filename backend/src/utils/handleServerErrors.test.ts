@@ -1,7 +1,7 @@
 import { ServerError } from "@/backend/core/errors/errors";
-import { handleServiceError } from "./handleServiceErrors";
+import { handleServerError } from "./handleServerErrors";
 
-describe("handleServiceError()", () => {
+describe("handleServerError()", () => {
   it("should throw server error with specific message", () => {
     const cause = new Error("Action failed");
     const message = "The specific action failed";
@@ -11,7 +11,7 @@ describe("handleServiceError()", () => {
     );
 
     expect(() => {
-      handleServiceError(message, cause);
+      handleServerError(message, cause);
     }).toThrow(expectedError);
   });
 });

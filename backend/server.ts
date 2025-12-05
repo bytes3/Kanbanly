@@ -21,7 +21,10 @@ app.onError((err, c) => {
   const currentDate = new Date(Date.now());
   const parsedDate = currentDate.toLocaleString("en-GB");
 
-  console.error(`[ERROR] [${parsedDate}]:`, err.stack);
+  console.error(`[ERROR USER RESPOND] [${parsedDate}]:`, err.stack);
+  if (err.cause instanceof Error) {
+    console.error(`[ERROR CAUSE] [${parsedDate}]:`, err.cause?.message);
+  }
 
   const result = {
     message: err.message

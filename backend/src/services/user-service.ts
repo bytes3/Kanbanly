@@ -6,7 +6,7 @@ import { User } from "@/backend/core/entity/user";
 import { UserAlreadyExist } from "@/backend/core/errors/errors";
 import { UserRepository } from "@/backend/core/repositories/user-repository";
 import { UserService } from "@/backend/core/services/user-service";
-import { handleServiceError } from "../utils/handleServiceErrors";
+import { handleServerError } from "../utils/handleServerErrors";
 
 export class IUserService implements UserService {
   userRepository: UserRepository;
@@ -19,7 +19,7 @@ export class IUserService implements UserService {
     try {
       return await this.userRepository.findUserByAccountId(accountId);
     } catch (error: any) {
-      handleServiceError(UserGetMessage.serverError, error);
+      handleServerError(UserGetMessage.serverError, error);
     }
   }
 
@@ -44,7 +44,7 @@ export class IUserService implements UserService {
         throw error;
       }
 
-      handleServiceError(UserCreationMessage.serverError, error);
+      handleServerError(UserCreationMessage.serverError, error);
     }
   }
 }

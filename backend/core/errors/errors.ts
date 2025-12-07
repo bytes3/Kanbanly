@@ -41,3 +41,9 @@ export class UserAlreadyExist extends UserError {
     super(400, { message: UserCreationMessage.alreadyExist });
   }
 }
+
+export class UsernameAlreadyExists extends UserError {
+  constructor() {
+    super(400, { message: UserCreationMessage.usernameAlreadyExist });
+  }
+}

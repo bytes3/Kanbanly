@@ -3,13 +3,16 @@ import {
   UserGetMessage
 } from "@/backend/core/entity/server-message";
 import { User } from "@/backend/core/entity/user";
-import { UserAlreadyExist } from "@/backend/core/errors/errors";
+import {
+  UserAlreadyExist,
+  UsernameAlreadyExists
+} from "@/backend/core/errors/errors";
 import { UserRepository } from "@/backend/core/repositories/user-repository";
 import { UserService } from "@/backend/core/services/user-service";
 import { handleServerError } from "../utils/handleServerErrors";
 
 export class IUserService implements UserService {
-  userRepository: UserRepository;
+  private userRepository: UserRepository;
 
   constructor(userRepository: UserRepository) {
     this.userRepository = userRepository;
@@ -23,24 +26,37 @@ export class IUserService implements UserService {
     }
   }
 
-  async create(user: User): Promise<{ message: string; user: User }> {
+  async create(
+    accountId: string,
+    user: Omit<User, "id">
+  ): Promise<{ message: string; user: User }> {
     try {
-      const existingUser = await this.userRepository.findUserByAccountId(
-        user.accountId
-      );
+      const existingUser =
+        await this.userRepository.findUserByAccountId(accountId);
 
       if (existingUser) {
         throw new UserAlreadyExist();
       }
 
-      const newUser = await this.userRepository.create(user);
+      const existingUsername = await this.userRepository.findUserByUsername(
+        user.username
+      );
+
+      if (existingUsername) {
+        throw new UsernameAlreadyExists();
+      }
+
+      const newUser = await this.userRepository.create(accountId, user);
 
       return {
         message: UserCreationMessage.ok,
         user: newUser
       };
     } catch (error: any) {
-      if (error instanceof UserAlreadyExist) {
+      if (
+        error instanceof UserAlreadyExist ||
+        error instanceof UsernameAlreadyExists
+      ) {
         throw error;
       }
 

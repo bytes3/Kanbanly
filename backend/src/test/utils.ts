@@ -14,7 +14,6 @@ export const createQueryResults = () => ({
       "$2y$10$KO.NrR9c/VyJxzRUYznPseQkJYirTa3ThzcFilhULOsQOSWjqQT.G"
   } as AccountQueryResult,
   userQuery: {
-    account_id: "123124",
     username: "BellyJohn88",
     first_name: "John",
     last_name: "Doe",
@@ -34,7 +33,7 @@ export const createTestContext = (
     createdAt: Date.now().toString()
   },
   user: User = {
-    accountId: "123124",
+    id: "123",
     username: "BellyJohn88",
     firstName: "John",
     lastName: "Doe",
@@ -68,12 +67,20 @@ export const createTestContext = (
       )
     },
     userRepository: {
-      create: mock(async function (user: User): Promise<User> {
-        return user;
+      create: mock(async function (
+        accountId: string,
+        user: Omit<User, "id">
+      ): Promise<User> {
+        return { ...user, id: "123" };
       }),
       findUserByAccountId: mock(
-        async (accountId: string): Promise<User | null> => {
-          return { ...user, accountId };
+        async (_accountId: string): Promise<User | null> => {
+          return { ...user };
+        }
+      ),
+      findUserByUsername: mock(
+        async (username: string): Promise<User | null> => {
+          return { ...user, username };
         }
       )
     }

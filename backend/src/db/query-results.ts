@@ -6,6 +6,7 @@ export interface AccountQueryResult {
 }
 
 export interface UserQueryResult {
+  id: string;
   account_id: string;
   username: string;
   first_name: string;

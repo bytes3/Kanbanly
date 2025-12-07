@@ -1,10 +1,11 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import { logger } from "hono/logger";
-import registerRoute from "./src/routes/register-route";
 import { UserError } from "./core/errors/errors";
 import { HTTPException } from "hono/http-exception";
+import registerRoute from "./src/routes/register-route";
 import loginRoute from "./src/routes/login-route";
+import userInitRoute from "./src/routes/post-user-init";
 
 const app = new Hono();
 
@@ -21,9 +22,9 @@ app.onError((err, c) => {
   const currentDate = new Date(Date.now());
   const parsedDate = currentDate.toLocaleString("en-GB");
 
-  console.error(`[ERROR USER RESPOND] [${parsedDate}]:`, err.stack);
+  console.error(`[ERROR USER RESPONSE] [${parsedDate}]:`, err.message);
   if (err.cause instanceof Error) {
-    console.error(`[ERROR CAUSE] [${parsedDate}]:`, err.cause?.message);
+    console.error(`[ERROR CAUSE] [${parsedDate}]:`, err.cause?.stack);
   }
 
   const result = {
@@ -36,17 +37,18 @@ app.onError((err, c) => {
 app.use(logger());
 
 app.use(
-  "/home/*",
+  "/app/*",
   jwt({
     secret: Bun.env.SECRET_JWT as string
   })
 );
 
-app.get("/home/page", async (c) => {
+app.get("/app/auth-test", async (c) => {
   return c.text("You are authorized");
 });
 
 app.route("/auth/register", registerRoute);
 app.route("/auth/login", loginRoute);
 
+app.route("/app/user-init", userInitRoute);
 export default app;

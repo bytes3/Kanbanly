@@ -21,10 +21,14 @@ export const AccountLoginMessage: ServerMessage & {
   wrongEmail: "Email doesn't exist"
 };
 
-export const UserCreationMessage: ServerMessage & { alreadyExist: string } = {
+export const UserCreationMessage: ServerMessage & {
+  alreadyExist: string;
+  usernameAlreadyExist: string;
+} = {
   ok: "User created successfully",
-  serverError: "Failed to create user.",
-  alreadyExist: "User already exist"
+  serverError: "Failed to create user",
+  alreadyExist: "User is already created",
+  usernameAlreadyExist: "Username is already in use, Try another"
 };
 
 export const UserGetMessage = {

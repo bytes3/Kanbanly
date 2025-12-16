@@ -1,14 +1,13 @@
-import { Mock, mock } from "bun:test";
-import { Account } from "@/backend/core/entity/account";
-import { AccountRepository } from "@/backend/core/repositories/account-repository";
-import { UserRepository } from "@/backend/core/repositories/user-repository";
-import { User } from "@/backend/core/entity/user";
-import {
+import { type Mock, mock } from "bun:test";
+import type { Account, SessionInfo } from "core/entity";
+import type { AccountRepository, UserRepository } from "core/repositories";
+import type { User } from "core/entity";
+import type {
   AccountQueryResult,
   ProjectQueryResult,
   UserQueryResult
 } from "../db/query-results";
-import { Project } from "@/backend/core/entity/project";
+import type { Project } from "core/entity";
 
 export const createQueryResults = () => ({
   accountQuery: {
@@ -47,7 +46,8 @@ export const createTestContext = (
   account: Account = {
     id: "123124",
     email: "testuser@test.ro",
-    createdAt: Date.now().toString()
+    createdAt: Date.now().toString(),
+    passwordHash: "$2y$10$KO.NrR9c/VyJxzRUYznPseQkJYirTa3ThzcFilhULOsQOSWjqQT.G"
   },
   user: User = {
     id: "123",
@@ -81,16 +81,13 @@ export const createTestContext = (
     queryResults,
     accountRepository: {
       findAccountByEmail: mock(
-        async (email: string): Promise<AccountQueryResult | null> => {
-          return { ...queryResults.accountQuery, email };
+        async (email: string): Promise<Account | null> => {
+          return { ...account, email };
         }
       ),
       create: mock(
-        async (
-          email: string,
-          _password: string
-        ): Promise<AccountQueryResult> => {
-          return { ...queryResults.accountQuery, email };
+        async (email: string, password: string): Promise<Account> => {
+          return { ...account, email, passwordHash: password };
         }
       )
     },
@@ -114,11 +111,11 @@ export const createTestContext = (
     },
     projectRepository: {
       account: {
-        id: "account-id",
+        accountId: "account-id",
         email: "test@test.ro"
-      } as Account,
-      create: mock(async (_project: Project): Promise<ProjectQueryResult> => {
-        return queryResults.projectQuery;
+      } as SessionInfo,
+      create: mock(async (project: Project): Promise<Project> => {
+        return { ...project };
       })
     }
   };

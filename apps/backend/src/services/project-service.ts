@@ -1,8 +1,7 @@
-import { Account } from "@/backend/core/entity/account";
-import { Project } from "@/backend/core/entity/project";
-import { ProjectRepository } from "@/backend/core/repositories/project-repository";
-import { ProjectService } from "@/backend/core/services/project-service";
-import { CommonCreateResult } from "@/backend/core/utils/common";
+import type { Project } from "core/entity";
+import type { ProjectRepository } from "core/repositories";
+import type { ProjectService } from "core/services";
+import type { CommonCreateResult } from "core/utils";
 import { handleServerError } from "../utils/handleServerErrors";
 import { ProjectCreationMessage } from "../utils/server-message";
 
@@ -18,9 +17,9 @@ export class IProjectService implements ProjectService {
       const result = await this.projectRepository.create(project);
 
       return {
-        id: result.id,
+        id: result.id ?? "",
         name: result.name,
-        createdAt: result.created_at
+        createdAt: result.createdAt
       };
     } catch (error: any) {
       handleServerError(ProjectCreationMessage.serverError, error);

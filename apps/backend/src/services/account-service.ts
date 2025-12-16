@@ -1,19 +1,20 @@
-import { AccountRepository } from "@/backend/core/repositories/account-repository";
-import { AccountService } from "@/backend/core/services/account-service";
-import {
-  AccountLoginMessage,
-  AccountRegisterMessage
-} from "@/backend/src/utils/server-message";
+import bcrypt from "bcryptjs";
+import type { SessionInfo, Token } from "core/entity";
+import type { AccountRepository } from "core/repositories";
+import type { AccountService } from "core/services";
+import { sign } from "hono/jwt";
+import type { JWTPayload } from "hono/utils/jwt/types";
 import {
   AccountAlreadyExist,
   AccountLoginFailure,
   AccountNotFound,
   MissingEnviermentVariable
-} from "@/backend/src/errors/errors";
-import bcrypt from "bcryptjs";
-import { Token } from "@/backend/core/entity/account";
-import { sign } from "hono/jwt";
+} from "../errors/errors";
 import { handleServerError } from "../utils/handleServerErrors";
+import {
+  AccountLoginMessage,
+  AccountRegisterMessage
+} from "../utils/server-message";
 
 export class IAccountService implements AccountService {
   private accountRepository: AccountRepository;
@@ -54,7 +55,7 @@ export class IAccountService implements AccountService {
 
       const isPasswordCorrect = await bcrypt.compare(
         password,
-        existingAccount.password_hash
+        existingAccount.passwordHash
       );
 
       if (!isPasswordCorrect) {
@@ -66,7 +67,13 @@ export class IAccountService implements AccountService {
         throw new MissingEnviermentVariable("SECRET_JWT");
       }
 
-      return await sign({ id: existingAccount.id, email }, secretJWT);
+      const sessionInfo: SessionInfo & JWTPayload = {
+        accountId: existingAccount.id,
+        email: existingAccount.email,
+        createdAt: existingAccount.createdAt
+      };
+
+      return await sign(sessionInfo, secretJWT);
     } catch (error: any) {
       if (
         error instanceof AccountNotFound ||

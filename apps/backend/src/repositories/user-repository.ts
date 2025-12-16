@@ -1,7 +1,7 @@
-import { User } from "@/backend/core/entity/user";
-import { UserRepository } from "@/backend/core/repositories/user-repository";
+import type { User } from "core/entity";
+import type { UserRepository } from "core/repositories";
+import type { UserQueryResult } from "../db/query-results";
 import sql from "../db/instance";
-import { UserQueryResult } from "../db/query-results";
 
 export class IUserRepository implements UserRepository {
   async findUserByUsername(username: string): Promise<User | null> {

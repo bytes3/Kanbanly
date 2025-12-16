@@ -1,4 +1,4 @@
-import { User } from "../entity/user";
+import type { User } from "../entity";
 
 export interface UserService {
   getUser(accountId: string): Promise<User | null>;

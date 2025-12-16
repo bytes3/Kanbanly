@@ -1,4 +1,5 @@
-import { ServerError } from "@/backend/src/errors/errors";
+import { describe, it, expect } from "bun:test";
+import { ServerError } from "../errors/errors";
 import { handleServerError } from "./handleServerErrors";
 
 describe("handleServerError()", () => {

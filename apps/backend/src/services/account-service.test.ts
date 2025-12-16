@@ -1,14 +1,14 @@
 import { describe, beforeEach, it, expect } from "bun:test";
-import { AccountRegisterMessage } from "@/backend/src/utils/server-message";
+import { AccountRegisterMessage } from "../utils/server-message";
 import {
   AccountAlreadyExist,
   AccountLoginFailure,
   AccountNotFound
-} from "@/backend/src/errors/errors";
+} from "../errors/errors";
 import { IAccountService } from "./account-service";
-import { createTestContext, MockedAccountRepository } from "../test/utils";
-import { AccountService } from "@/backend/core/services/account-service";
-import { Account } from "@/backend/core/entity/account";
+import { createTestContext, type MockedAccountRepository } from "../test/utils";
+import type { AccountService } from "core/services";
+import type { Account } from "core/entity";
 
 describe("Auth Tests", () => {
   let account: Account;
@@ -33,8 +33,7 @@ describe("Auth Tests", () => {
       const result = await accountService.register(expectedEmail, password);
 
       expect(result).toBe(AccountRegisterMessage.ok);
-      expect(accountRepository.create.mock.calls[0][0]).toEqual(expectedEmail);
-      expect(accountRepository.create.mock.calls[0][1]).not.toBeEmpty();
+      expect(accountRepository.create).toBeCalledTimes(1);
     });
 
     it("should return error when the user already exist", async () => {

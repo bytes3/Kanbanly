@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { IAccountService } from "@/backend/src/services/account-service";
-import { IAccountRepository } from "@/backend/src/repositories/account-repository";
-import { loginValidator } from "@/backend/shared/validators";
+import { IAccountRepository } from "../repositories/account-repository";
+import { IAccountService } from "../services/account-service";
+import { loginValidator } from "shared/validators";
 
 const app = new Hono();
 

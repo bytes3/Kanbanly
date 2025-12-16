@@ -2,9 +2,15 @@
   "name": "shared",
   "module": "index.ts",
   "type": "module",
-  "private": true,
+  "exports": {
+    "./utils": "./src/utils/index.ts",
+    "./validators": "./src/validators/index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "zod": "^4.1.12",
+    "@hono/standard-validator": "^0.2.0",
+    "@hono/zod-validator": "^0.7.4"
   },
   "peerDependencies": {
     "typescript": "^5"

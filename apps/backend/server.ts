@@ -7,6 +7,10 @@ import registerRoute from "./src/routes/register-route";
 import loginRoute from "./src/routes/login-route";
 import userInitRoute from "./src/routes/post-user-init";
 
+import { greeting } from "shared";
+
+greeting();
+
 const app = new Hono();
 
 app.onError((err, c) => {

@@ -3,7 +3,12 @@ import { Account } from "@/backend/core/entity/account";
 import { AccountRepository } from "@/backend/core/repositories/account-repository";
 import { UserRepository } from "@/backend/core/repositories/user-repository";
 import { User } from "@/backend/core/entity/user";
-import { AccountQueryResult, UserQueryResult } from "../db/query-results";
+import {
+  AccountQueryResult,
+  ProjectQueryResult,
+  UserQueryResult
+} from "../db/query-results";
+import { Project } from "@/backend/core/entity/project";
 
 export const createQueryResults = () => ({
   accountQuery: {
@@ -14,6 +19,7 @@ export const createQueryResults = () => ({
       "$2y$10$KO.NrR9c/VyJxzRUYznPseQkJYirTa3ThzcFilhULOsQOSWjqQT.G"
   } as AccountQueryResult,
   userQuery: {
+    id: "id",
     username: "BellyJohn88",
     first_name: "John",
     last_name: "Doe",
@@ -23,7 +29,18 @@ export const createQueryResults = () => ({
     completed_onboarding: true,
     date_birth: Date.now().toString(),
     gender: "Male"
-  } as UserQueryResult
+  } as UserQueryResult,
+  projectQuery: {
+    id: "id",
+    name: "project-name",
+    description: "a new project to test on",
+    created_at: "2022-01-12T06:15:00.000Z",
+    board: {
+      name: "board-name",
+      list_names: ["To Do", "In Progress", "In QA", "Done"],
+      created_at: "2022-01-12T06:15:00.000Z"
+    }
+  } as ProjectQueryResult
 });
 
 export const createTestContext = (
@@ -43,13 +60,24 @@ export const createTestContext = (
     dateBirth: Date.now().toString(),
     gender: "Male",
     completedOnboarding: true
+  },
+  project: Project = {
+    id: "project-id",
+    name: "project-name",
+    description: "a new project to test on",
+    createdAt: "2022-01-12T06:15:00.000Z",
+    board: {
+      name: "board-name",
+      listNames: ["To Do", "In Progress", "In QA", "Done"],
+      createdAt: "2022-01-12T06:15:00.000Z"
+    }
   }
 ) => {
   const queryResults = createQueryResults();
-
   return {
     account,
     user,
+    project,
     queryResults,
     accountRepository: {
       findAccountByEmail: mock(
@@ -68,7 +96,7 @@ export const createTestContext = (
     },
     userRepository: {
       create: mock(async function (
-        accountId: string,
+        _accountId: string,
         user: Omit<User, "id">
       ): Promise<User> {
         return { ...user, id: "123" };
@@ -83,6 +111,15 @@ export const createTestContext = (
           return { ...user, username };
         }
       )
+    },
+    projectRepository: {
+      account: {
+        id: "account-id",
+        email: "test@test.ro"
+      } as Account,
+      create: mock(async (_project: Project): Promise<ProjectQueryResult> => {
+        return queryResults.projectQuery;
+      })
     }
   };
 };

@@ -18,3 +18,15 @@ export interface UserQueryResult {
   state?: string;
   completed_onboarding: boolean;
 }
+
+export interface ProjectQueryResult {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  board: {
+    name: string;
+    list_names: string[];
+    created_at: string;
+  };
+}

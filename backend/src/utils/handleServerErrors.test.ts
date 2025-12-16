@@ -1,4 +1,4 @@
-import { ServerError } from "@/backend/core/errors/errors";
+import { ServerError } from "@/backend/src/errors/errors";
 import { handleServerError } from "./handleServerErrors";
 
 describe("handleServerError()", () => {

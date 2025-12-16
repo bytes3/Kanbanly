@@ -34,3 +34,7 @@ export const UserCreationMessage: ServerMessage & {
 export const UserGetMessage = {
   serverError: "Failed to get user"
 };
+
+export const ProjectCreationMessage = {
+  serverError: "Failed to create project"
+};

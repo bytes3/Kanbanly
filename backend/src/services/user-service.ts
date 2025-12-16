@@ -1,12 +1,12 @@
 import {
   UserCreationMessage,
   UserGetMessage
-} from "@/backend/core/entity/server-message";
+} from "@/backend/src/utils/server-message";
 import { User } from "@/backend/core/entity/user";
 import {
   UserAlreadyExist,
   UsernameAlreadyExists
-} from "@/backend/core/errors/errors";
+} from "@/backend/src/errors/errors";
 import { UserRepository } from "@/backend/core/repositories/user-repository";
 import { UserService } from "@/backend/core/services/user-service";
 import { handleServerError } from "../utils/handleServerErrors";

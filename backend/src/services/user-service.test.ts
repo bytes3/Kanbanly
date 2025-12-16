@@ -2,11 +2,11 @@ import { describe, beforeEach, expect, it } from "bun:test";
 import { createTestContext, MockedUserRepository } from "../test/utils";
 import { User } from "@/backend/core/entity/user";
 import { UserService } from "@/backend/core/services/user-service";
-import { UserCreationMessage } from "@/backend/core/entity/server-message";
+import { UserCreationMessage } from "@/backend/src/utils/server-message";
 import {
   UserAlreadyExist,
   UsernameAlreadyExists
-} from "@/backend/core/errors/errors";
+} from "@/backend/src/errors/errors";
 import { IUserService } from "./user-service";
 
 describe(() => {

@@ -3,7 +3,7 @@ import {
   AccountLoginMessage,
   AccountRegisterMessage,
   UserCreationMessage
-} from "@/backend/src/utils/server-message";
+} from "../utils/server-message";
 
 export class ServerError extends Error {
   constructor(message: string, cause?: Error) {

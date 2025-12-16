@@ -1,9 +1,12 @@
 {
   "name": "core",
-  "module": "index.ts",
   "type": "module",
-  "main": "./src/index.ts",
-  "private": true,
+  "exports": {
+    "./entity": "./src/entity/index.ts",
+    "./repositories": "./src/repositories/index.ts",
+    "./services": "./src/services/index.ts",
+    "./utils": "./src/utils/index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

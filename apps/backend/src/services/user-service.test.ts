@@ -1,12 +1,9 @@
 import { describe, beforeEach, expect, it } from "bun:test";
-import { createTestContext, MockedUserRepository } from "../test/utils";
-import { User } from "@/backend/core/entity/user";
-import { UserService } from "@/backend/core/services/user-service";
-import { UserCreationMessage } from "@/backend/src/utils/server-message";
-import {
-  UserAlreadyExist,
-  UsernameAlreadyExists
-} from "@/backend/src/errors/errors";
+import { createTestContext, type MockedUserRepository } from "../test/utils";
+import type { User } from "core/entity";
+import type { UserService } from "core/services";
+import { UserCreationMessage } from "../utils/server-message";
+import { UserAlreadyExist, UsernameAlreadyExists } from "../errors/errors";
 import { IUserService } from "./user-service";
 
 describe(() => {

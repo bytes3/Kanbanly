@@ -1,9 +1,10 @@
-import { AccountRepository } from "@/backend/core/repositories/account-repository";
+import type { AccountRepository } from "core/repositories";
+import type { Account } from "core/entity";
+import type { AccountQueryResult } from "../db/query-results";
 import sql from "../db/instance";
-import { AccountQueryResult } from "../db/query-results";
 
 export class IAccountRepository implements AccountRepository {
-  async findAccountByEmail(email: string): Promise<AccountQueryResult | null> {
+  async findAccountByEmail(email: string): Promise<Account | null> {
     const result: [AccountQueryResult] = await sql`
       SELECT * FROM account
       WHERE email = ${email};
@@ -16,12 +17,12 @@ export class IAccountRepository implements AccountRepository {
     return {
       id: result[0].id,
       email: result[0].email,
-      created_at: result[0].created_at,
-      password_hash: result[0].password_hash
+      createdAt: result[0].created_at,
+      passwordHash: result[0].password_hash
     };
   }
 
-  async create(email: string, password: string): Promise<AccountQueryResult> {
+  async create(email: string, password: string): Promise<Account> {
     const account = {
       email,
       password_hash: password
@@ -35,8 +36,8 @@ export class IAccountRepository implements AccountRepository {
     return {
       id: result.id,
       email: result.email,
-      created_at: result.created_at,
-      password_hash: result.password_hash
+      createdAt: result.created_at,
+      passwordHash: result.password_hash
     };
   }
 }

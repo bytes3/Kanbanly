@@ -1,15 +1,9 @@
-import {
-  UserCreationMessage,
-  UserGetMessage
-} from "@/backend/src/utils/server-message";
-import { User } from "@/backend/core/entity/user";
-import {
-  UserAlreadyExist,
-  UsernameAlreadyExists
-} from "@/backend/src/errors/errors";
-import { UserRepository } from "@/backend/core/repositories/user-repository";
-import { UserService } from "@/backend/core/services/user-service";
+import type { User } from "core/entity";
+import type { UserRepository } from "core/repositories";
+import type { UserService } from "core/services";
+import { UserAlreadyExist, UsernameAlreadyExists } from "../errors/errors";
 import { handleServerError } from "../utils/handleServerErrors";
+import { UserCreationMessage, UserGetMessage } from "../utils/server-message";
 
 export class IUserService implements UserService {
   private userRepository: UserRepository;

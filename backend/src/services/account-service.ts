@@ -3,13 +3,13 @@ import { AccountService } from "@/backend/core/services/account-service";
 import {
   AccountLoginMessage,
   AccountRegisterMessage
-} from "@/backend/core/entity/server-message";
+} from "@/backend/src/utils/server-message";
 import {
   AccountAlreadyExist,
   AccountLoginFailure,
   AccountNotFound,
   MissingEnviermentVariable
-} from "@/backend/core/errors/errors";
+} from "@/backend/src/errors/errors";
 import bcrypt from "bcryptjs";
 import { Token } from "@/backend/core/entity/account";
 import { sign } from "hono/jwt";

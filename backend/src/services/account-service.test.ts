@@ -1,10 +1,10 @@
 import { describe, beforeEach, it, expect } from "bun:test";
-import { AccountRegisterMessage } from "@/backend/core/entity/server-message";
+import { AccountRegisterMessage } from "@/backend/src/utils/server-message";
 import {
   AccountAlreadyExist,
   AccountLoginFailure,
   AccountNotFound
-} from "@/backend/core/errors/errors";
+} from "@/backend/src/errors/errors";
 import { IAccountService } from "./account-service";
 import { createTestContext, MockedAccountRepository } from "../test/utils";
 import { AccountService } from "@/backend/core/services/account-service";

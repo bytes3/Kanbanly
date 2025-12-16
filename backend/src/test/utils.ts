@@ -3,7 +3,12 @@ import { Account } from "@/backend/core/entity/account";
 import { AccountRepository } from "@/backend/core/repositories/account-repository";
 import { UserRepository } from "@/backend/core/repositories/user-repository";
 import { User } from "@/backend/core/entity/user";
-import { AccountQueryResult, UserQueryResult } from "../db/query-results";
+import {
+  AccountQueryResult,
+  ProjectQueryResult,
+  UserQueryResult
+} from "../db/query-results";
+import { Project } from "@/backend/core/entity/project";
 
 export const createQueryResults = () => ({
   accountQuery: {

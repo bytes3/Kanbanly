@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import { logger } from "hono/logger";
-import { UserError } from "./core/errors/errors";
+import { UserError } from "./src/errors/errors";
 import { HTTPException } from "hono/http-exception";
 import registerRoute from "./src/routes/register-route";
 import loginRoute from "./src/routes/login-route";

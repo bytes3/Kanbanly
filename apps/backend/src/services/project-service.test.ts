@@ -13,7 +13,7 @@ describe("Project service", () => {
       expect(result).toEqual({
         id: "project-id",
         name: project.name,
-        createdAt: project.createdAt
+        createdAt: project.createdAt!
       });
     });
   });

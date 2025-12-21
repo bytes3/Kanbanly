@@ -6,6 +6,7 @@ import { HTTPException } from "hono/http-exception";
 import registerRoute from "./src/routes/register-route";
 import loginRoute from "./src/routes/login-route";
 import userInitRoute from "./src/routes/post-user-init";
+import projectInitRoute from "./src/routes/post-project-init-route";
 
 const app = new Hono();
 
@@ -51,4 +52,6 @@ app.route("/auth/register", registerRoute);
 app.route("/auth/login", loginRoute);
 
 app.route("/app/user-init", userInitRoute);
+app.route("/app/project-init", projectInitRoute);
+
 export default app;

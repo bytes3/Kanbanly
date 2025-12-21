@@ -14,10 +14,17 @@ export class IProjectService implements ProjectService {
 
   async create(project: Project): Promise<CommonCreateResult> {
     try {
-      const result = await this.projectRepository.create(project);
+      const result = await this.projectRepository.create({
+        projectName: project.name,
+        projectDescription: project.description,
+        boardName: project.board.name,
+        boardList: project.board.listNames
+      });
+
+      console.log(result);
 
       return {
-        id: result.id ?? "",
+        id: result.id,
         name: result.name,
         createdAt: result.createdAt
       };

@@ -33,7 +33,6 @@ export class IUserRepository implements UserRepository {
   async create(accountId: string, user: Omit<User, "id">): Promise<User> {
     const userAccount = getInsertUserQuery(accountId, user);
     userAccount.account_id = accountId;
-    console.log(userAccount);
 
     const [queryResult]: [UserQueryResult] = await sql`
       INSERT INTO account_user

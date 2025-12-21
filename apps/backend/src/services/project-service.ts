@@ -21,8 +21,6 @@ export class IProjectService implements ProjectService {
         boardList: project.board.listNames
       });
 
-      console.log(result);
-
       return {
         id: result.id,
         name: result.name,

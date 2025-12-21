@@ -11,8 +11,6 @@ export class IProjectRepository implements ProjectRepository {
   }
 
   async create(params: CreateProjectParams): Promise<CommonCreateResult> {
-    console.log(params, this.sessionInfo);
-
     const [queryResult] = await sql`
       SELECT * FROM fn_init_board(
         ${this.sessionInfo.accountId},

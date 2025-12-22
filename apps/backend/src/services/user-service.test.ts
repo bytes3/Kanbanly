@@ -6,19 +6,14 @@ import {
 } from "../test/utils";
 import type { User } from "core/entity";
 import type { UserService } from "core/services";
-import {
-  UserCreationMessage,
-  UserOnboardingStatusMessage
-} from "../utils/server-message";
+import { UserCreationMessage } from "../utils/server-message";
 import {
   ProjectNotFound,
   UserAlreadyExist,
-  UserError,
   UsernameAlreadyExists,
   UserNotFound
 } from "../errors/errors";
 import { IUserService } from "./user-service";
-import type { ProjectRepository } from "core/repositories";
 
 describe(() => {
   let user: User;

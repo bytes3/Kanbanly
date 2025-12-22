@@ -2,7 +2,6 @@ import type { Project, SessionInfo } from "core/entity";
 import type { CreateProjectParams, ProjectRepository } from "core/repositories";
 import type { CommonCreateResult } from "core/utils";
 import sql from "../db/instance";
-import type { Row } from "postgres";
 
 export class IProjectRepository implements ProjectRepository {
   private sessionInfo: SessionInfo;

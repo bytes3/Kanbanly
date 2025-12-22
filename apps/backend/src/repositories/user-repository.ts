@@ -2,7 +2,6 @@ import type { SessionInfo, User } from "core/entity";
 import type { UserRepository } from "core/repositories";
 import type { UserQueryResult } from "../db/query-results";
 import sql from "../db/instance";
-import { UserError } from "../errors/errors";
 
 export class IUserRepository implements UserRepository {
   private sessionInfo: SessionInfo;

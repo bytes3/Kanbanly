@@ -1,9 +1,16 @@
-import type { User } from "core/entity";
+import type { SessionInfo, User } from "core/entity";
 import type { UserRepository } from "core/repositories";
 import type { UserQueryResult } from "../db/query-results";
 import sql from "../db/instance";
+import { UserError } from "../errors/errors";
 
 export class IUserRepository implements UserRepository {
+  private sessionInfo: SessionInfo;
+
+  constructor(sessionInfo: SessionInfo) {
+    this.sessionInfo = sessionInfo;
+  }
+
   async findUserByUsername(username: string): Promise<User | null> {
     const [queryResult]: [UserQueryResult] = await sql`
       SELECT * FROM account_user
@@ -39,6 +46,29 @@ export class IUserRepository implements UserRepository {
         ${sql(userAccount)}
         returning *;
     `;
+
+    return parseUser(queryResult);
+  }
+
+  async updateCompletedOnboarding(): Promise<boolean> {
+    await sql`
+      UPDATE account_user
+        SET completed_onboarding=True
+        WHERE account_id = ${this.sessionInfo.accountId};
+    `;
+
+    return true;
+  }
+
+  async getCurrentUser(): Promise<User | null> {
+    const [queryResult]: [UserQueryResult] = await sql`
+      SELECT * FROM account_user
+        WHERE account_id = ${this.sessionInfo.accountId};
+    `;
+
+    if (!queryResult) {
+      return null;
+    }
 
     return parseUser(queryResult);
   }

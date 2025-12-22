@@ -8,6 +8,7 @@ import loginRoute from "./src/routes/login-route";
 import userInitRoute from "./src/routes/post-user-init";
 import projectInitRoute from "./src/routes/post-project-init-route";
 import finishedOnboardingRoute from "./src/routes/put-finished-onboarding";
+import getUserInformationRoute from "./src/routes/get-user-information";
 
 const app = new Hono();
 
@@ -54,6 +55,7 @@ app.route("/auth/login", loginRoute);
 
 app.route("/app/user/init", userInitRoute);
 app.route("/app/user/onboarding-finished", finishedOnboardingRoute);
+app.route("/app/user/information", getUserInformationRoute);
 
 app.route("/app/project-init", projectInitRoute);
 

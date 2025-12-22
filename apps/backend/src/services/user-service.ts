@@ -1,15 +1,29 @@
 import type { User } from "core/entity";
-import type { UserRepository } from "core/repositories";
+import type { ProjectRepository, UserRepository } from "core/repositories";
 import type { UserService } from "core/services";
-import { UserAlreadyExist, UsernameAlreadyExists } from "../errors/errors";
+import {
+  ProjectNotFound,
+  UserAlreadyExist,
+  UsernameAlreadyExists,
+  UserNotFound
+} from "../errors/errors";
 import { handleServerError } from "../utils/handleServerErrors";
-import { UserCreationMessage, UserGetMessage } from "../utils/server-message";
+import {
+  UserCreationMessage,
+  UserGetMessage,
+  UserOnboardingStatusMessage
+} from "../utils/server-message";
 
 export class IUserService implements UserService {
   private userRepository: UserRepository;
+  private projectRepository: ProjectRepository;
 
-  constructor(userRepository: UserRepository) {
+  constructor(
+    userRepository: UserRepository,
+    projectRepository: ProjectRepository
+  ) {
     this.userRepository = userRepository;
+    this.projectRepository = projectRepository;
   }
 
   async getUser(accountId: string): Promise<User | null> {
@@ -55,6 +69,32 @@ export class IUserService implements UserService {
       }
 
       handleServerError(UserCreationMessage.serverError, error);
+    }
+  }
+
+  async updateOnboardingStatus(): Promise<boolean> {
+    try {
+      const isUserExisting = await this.userRepository.getCurrentUser();
+      const hasProjects = await this.projectRepository.getMainProject();
+
+      if (!isUserExisting) {
+        throw new UserNotFound();
+      }
+
+      if (!hasProjects) {
+        throw new ProjectNotFound();
+      }
+
+      const onboardingStatus =
+        await this.userRepository.updateCompletedOnboarding();
+
+      return onboardingStatus;
+    } catch (error: any) {
+      if (error instanceof UserNotFound || error instanceof ProjectNotFound) {
+        throw error;
+      }
+
+      handleServerError(UserOnboardingStatusMessage.serverError, error);
     }
   }
 }

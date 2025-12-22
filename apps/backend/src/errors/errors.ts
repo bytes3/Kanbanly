@@ -2,7 +2,9 @@ import { HTTPException } from "hono/http-exception";
 import {
   AccountLoginMessage,
   AccountRegisterMessage,
-  UserCreationMessage
+  ProjectMessage,
+  UserCreationMessage,
+  UserOnboardingStatusMessage
 } from "../utils/server-message";
 
 export class ServerError extends Error {
@@ -45,5 +47,21 @@ export class UserAlreadyExist extends UserError {
 export class UsernameAlreadyExists extends UserError {
   constructor() {
     super(400, { message: UserCreationMessage.usernameAlreadyExist });
+  }
+}
+
+export class UserNotFound extends UserError {
+  constructor() {
+    super(403, {
+      message: UserOnboardingStatusMessage.userDidNotFinishedOnboarding
+    });
+  }
+}
+
+export class ProjectNotFound extends UserError {
+  constructor() {
+    super(403, {
+      message: ProjectMessage.doesntExist
+    });
   }
 }

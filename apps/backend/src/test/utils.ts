@@ -3,9 +3,10 @@ import type * as entity from "core/entity";
 import type {
   AccountRepository,
   CreateProjectParams,
+  ProjectRepository,
   UserRepository
 } from "core/repositories";
-import type { User } from "core/entity";
+import type { InitProject, User } from "core/entity";
 import type { Project } from "core/entity";
 import type { CommonCreateResult } from "core/utils";
 
@@ -33,7 +34,7 @@ export const createTestContext = (
     gender: "Male",
     completedOnboarding: true
   },
-  project: Project = {
+  initProject: InitProject = {
     id: "project-id",
     name: "project-name",
     description: "a new project to test on",
@@ -43,13 +44,20 @@ export const createTestContext = (
       listNames: ["To Do", "In Progress", "In QA", "Done"],
       createdAt: "2022-01-12T06:15:00.000Z"
     }
+  },
+  project: Project = {
+    id: "project-id",
+    name: "project-name",
+    description: "a new project to test on",
+    createdAt: "2022-01-12T06:15:00.000Z"
   }
 ) => {
   return {
     account,
     user,
-    project,
     sessionInfo,
+    project,
+    initProject,
     accountRepository: {
       findAccountByEmail: mock(
         async (email: string): Promise<entity.Account | null> => {
@@ -69,6 +77,9 @@ export const createTestContext = (
       ): Promise<User> {
         return { ...user, id: "123" };
       }),
+      updateCompletedOnboarding: mock(async (): Promise<boolean> => {
+        return true;
+      }),
       findUserByAccountId: mock(
         async (_accountId: string): Promise<User | null> => {
           return { ...user };
@@ -78,15 +89,21 @@ export const createTestContext = (
         async (username: string): Promise<User | null> => {
           return { ...user, username };
         }
-      )
+      ),
+      getCurrentUser: mock(async (): Promise<User | null> => {
+        return { ...user };
+      })
     },
     projectRepository: {
       sessionInfo,
+      getMainProject: mock(async (): Promise<Project> => {
+        return { ...project };
+      }),
       create: mock(
         async (_params: CreateProjectParams): Promise<CommonCreateResult> => {
           return {
             id: "project-id",
-            createdAt: project.createdAt!,
+            createdAt: initProject.createdAt!,
             name: "project-name"
           };
         }
@@ -101,4 +118,8 @@ export type MockedAccountRepository = {
 
 export type MockedUserRepository = {
   [K in keyof UserRepository]: Mock<UserRepository[K]>;
+};
+
+export type MockedProjectRepository = {
+  [K in keyof ProjectRepository]: Mock<ProjectRepository[K]>;
 };

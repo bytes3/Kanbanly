@@ -3,17 +3,19 @@ import { IUserService } from "../services/user-service";
 import { IUserRepository } from "../repositories/user-repository";
 import { userCreationValidator } from "shared/validators";
 import type { SessionInfo } from "core/entity";
+import { IProjectRepository } from "../repositories/project-repository";
 
 const app = new Hono();
 
 app.post("/", userCreationValidator, async (context) => {
-  const userRepository = new IUserRepository();
-  const accountService = new IUserService(userRepository);
-
   const data = context.req.valid("json");
-  const { accountId }: SessionInfo = context.get("jwtPayload");
+  const sessionInfo: SessionInfo = context.get("jwtPayload");
 
-  const result = await accountService.create(accountId, {
+  const userRepository = new IUserRepository(sessionInfo);
+  const projectRepository = new IProjectRepository(sessionInfo);
+  const accountService = new IUserService(userRepository, projectRepository);
+
+  const result = await accountService.create(sessionInfo.accountId, {
     username: data.username,
     firstName: data.firstName,
     lastName: data.lastName,

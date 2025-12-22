@@ -4,6 +4,7 @@ import type { UserService } from "core/services";
 import {
   ProjectNotFound,
   UserAlreadyExist,
+  UserError,
   UsernameAlreadyExists,
   UserNotFound
 } from "../errors/errors";
@@ -61,10 +62,7 @@ export class IUserService implements UserService {
         user: newUser
       };
     } catch (error: any) {
-      if (
-        error instanceof UserAlreadyExist ||
-        error instanceof UsernameAlreadyExists
-      ) {
+      if (error instanceof UserError) {
         throw error;
       }
 
@@ -90,11 +88,29 @@ export class IUserService implements UserService {
 
       return onboardingStatus;
     } catch (error: any) {
-      if (error instanceof UserNotFound || error instanceof ProjectNotFound) {
+      if (error instanceof UserError) {
         throw error;
       }
 
       handleServerError(UserOnboardingStatusMessage.serverError, error);
+    }
+  }
+
+  async getCurrentUser(): Promise<User> {
+    try {
+      const user = await this.userRepository.getCurrentUser();
+
+      if (!user) {
+        throw new UserNotFound();
+      }
+
+      return user;
+    } catch (error: any) {
+      if (error instanceof UserError) {
+        throw error;
+      }
+
+      handleServerError(UserGetMessage.serverError, error);
     }
   }
 }

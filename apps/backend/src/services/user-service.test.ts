@@ -10,6 +10,7 @@ import { UserCreationMessage } from "../utils/server-message";
 import {
   ProjectNotFound,
   UserAlreadyExist,
+  UserError,
   UsernameAlreadyExists,
   UserNotFound
 } from "../errors/errors";
@@ -127,6 +128,25 @@ describe(() => {
       expect(userRepository.getCurrentUser).toBeCalled();
       expect(projectRepository.getMainProject).toBeCalled();
       expect(userRepository.updateCompletedOnboarding).not.toBeCalled();
+    });
+  });
+
+  describe("Get current user", () => {
+    it("should get the user successfully", async () => {
+      const result = await userService.getCurrentUser();
+
+      expect(result).toEqual(user);
+      expect(userRepository.getCurrentUser).toBeCalled();
+    });
+
+    it("should throw user not found error", async () => {
+      userRepository.getCurrentUser.mockResolvedValue(null);
+      const expectedError = new UserNotFound();
+
+      expect(async () => {
+        await userService.getCurrentUser();
+      }).toThrow(expectedError);
+      expect(userRepository.getCurrentUser).toBeCalled();
     });
   });
 });

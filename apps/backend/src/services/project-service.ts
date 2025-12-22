@@ -1,4 +1,4 @@
-import type { Project } from "core/entity";
+import type { InitProject } from "core/entity";
 import type { ProjectRepository } from "core/repositories";
 import type { ProjectService } from "core/services";
 import type { CommonCreateResult } from "core/utils";
@@ -12,7 +12,7 @@ export class IProjectService implements ProjectService {
     this.projectRepository = projectRepository;
   }
 
-  async create(project: Project): Promise<CommonCreateResult> {
+  async create(project: InitProject): Promise<CommonCreateResult> {
     try {
       const result = await this.projectRepository.create({
         projectName: project.name,

@@ -1,4 +1,4 @@
-export interface Project {
+export interface InitProject {
   id?: string;
   name: string;
   description: string;
@@ -8,4 +8,12 @@ export interface Project {
     listNames: string[];
     createdAt?: string;
   };
+}
+
+export interface Project {
+  id?: string;
+  name: string;
+  description: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

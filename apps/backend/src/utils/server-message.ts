@@ -31,10 +31,19 @@ export const UserCreationMessage: ServerMessage & {
   usernameAlreadyExist: "Username is already in use, Try another"
 };
 
+export const UserOnboardingStatusMessage = {
+  userDidNotFinishedOnboarding: "Account user is not initialised",
+  serverError: "Failed to update onboarding status"
+};
+
 export const UserGetMessage = {
   serverError: "Failed to get user"
 };
 
 export const ProjectCreationMessage = {
   serverError: "Failed to create project"
+};
+
+export const ProjectMessage = {
+  doesntExist: "User has no projects"
 };

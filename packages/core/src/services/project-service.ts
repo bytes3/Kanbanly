@@ -1,6 +1,6 @@
-import type { Project } from "../entity";
+import type { InitProject } from "../entity";
 import type { CommonCreateResult } from "../utils";
 
 export interface ProjectService {
-  create: (project: Project) => Promise<CommonCreateResult>;
+  create: (project: InitProject) => Promise<CommonCreateResult>;
 }

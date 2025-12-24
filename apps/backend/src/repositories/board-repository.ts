@@ -7,7 +7,7 @@ export class IBoardRepository implements BoardRepository {
     projectId: string
   ): Promise<Board | null> {
     const [queryResult] = await sql`
-      SELECT * FROM beard
+      SELECT * FROM board
         WHERE is_default = true AND 
               project_id = ${projectId};
     `;

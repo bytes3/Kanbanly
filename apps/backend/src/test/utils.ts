@@ -1,28 +1,29 @@
 import { type Mock, mock } from "bun:test";
-import type * as entity from "core/entity";
+import * as entity from "core/entity";
 import type {
   AccountRepository,
+  BoardRepository,
   CreateProjectParams,
   ProjectRepository,
   UserRepository
 } from "core/repositories";
-import type { InitProject, User } from "core/entity";
+import type { Board, InitProject, User } from "core/entity";
 import type { Project } from "core/entity";
 import type { CommonCreateResult } from "core/utils";
 
-export const createTestContext = (
-  account: entity.Account = {
+const createEntitesContext = () => ({
+  account: {
     id: "123124",
     email: "testuser@test.ro",
     createdAt: Date.now().toString(),
     passwordHash: "$2y$10$KO.NrR9c/VyJxzRUYznPseQkJYirTa3ThzcFilhULOsQOSWjqQT.G"
-  },
-  sessionInfo: entity.SessionInfo = {
+  } as entity.Account,
+  sessionInfo: {
     accountId: "account-id",
     email: "test@test.ro",
     createdAt: new Date(Date.now()).toISOString()
-  },
-  user: User = {
+  } as entity.SessionInfo,
+  user: {
     id: "123",
     username: "BellyJohn88",
     firstName: "John",
@@ -33,8 +34,8 @@ export const createTestContext = (
     dateBirth: Date.now().toString(),
     gender: "Male",
     completedOnboarding: true
-  },
-  initProject: InitProject = {
+  } as entity.User,
+  initProject: {
     id: "project-id",
     name: "project-name",
     description: "a new project to test on",
@@ -44,20 +45,88 @@ export const createTestContext = (
       listNames: ["To Do", "In Progress", "In QA", "Done"],
       createdAt: "2022-01-12T06:15:00.000Z"
     }
-  },
-  project: Project = {
+  } as entity.InitProject,
+  project: {
     id: "project-id",
     name: "project-name",
     description: "a new project to test on",
     createdAt: "2022-01-12T06:15:00.000Z"
-  }
-) => {
-  return {
+  } as entity.Project,
+  boards: [
+    {
+      id: "board-id",
+      projectId: "project-id",
+      name: "board-name",
+      isDefault: true,
+      position: 0,
+      createdAt: "2022-01-12T06:15:00.000Z",
+      updatedAt: "2022-01-12T06:15:00.000Z"
+    },
+    {
+      id: "board-id-2",
+      projectId: "project-id",
+      name: "board-name-2",
+      isDefault: false,
+      position: 1,
+      createdAt: "2022-01-12T06:15:00.000Z",
+      updatedAt: "2022-01-12T06:15:00.000Z"
+    }
+  ] as Board[],
+  boardList: [
+    {
+      id: "list-id",
+      boardId: "board-id",
+      name: "list-name",
+      position: 0,
+      createdAt: "2022-01-12T06:15:00.000Z",
+      updatedAt: "2022-01-12T06:15:00.000Z"
+    },
+    {
+      id: "list-id-2",
+      boardId: "board-id",
+      name: "list-name-2",
+      position: 1,
+      createdAt: "2022-01-12T06:15:00.000Z",
+      updatedAt: "2022-01-12T06:15:00.000Z"
+    }
+  ] as entity.BoardList[],
+  boardListItems: [
+    {
+      id: "item-id",
+      boardListId: "list-id",
+      title: "item-title",
+      description: "item-description",
+      position: 0,
+      createdAt: "2022-01-12T06:15:00.000Z",
+      updatedAt: "2022-01-12T06:15:00.000Z",
+      completedAt: "2022-01-12T06:15:00.000Z"
+    }
+  ] as entity.BoardListItem[]
+});
+
+export const createTestContext = () => {
+  const {
     account,
-    user,
     sessionInfo,
-    project,
+    user,
     initProject,
+    project,
+    boards,
+    boardList,
+    boardListItems
+  } = createEntitesContext();
+
+  return {
+    entities: {
+      account,
+      sessionInfo,
+      user,
+      initProject,
+      project,
+      boards,
+      boardList,
+      boardListItems
+    },
     accountRepository: {
       findAccountByEmail: mock(
         async (email: string): Promise<entity.Account | null> => {
@@ -82,7 +151,7 @@ export const createTestContext = (
       }),
       findUserByAccountId: mock(
         async (_accountId: string): Promise<User | null> => {
-          return { ...user };
+          return user;
         }
       ),
       findUserByUsername: mock(
@@ -91,13 +160,13 @@ export const createTestContext = (
         }
       ),
       getCurrentUser: mock(async (): Promise<User | null> => {
-        return { ...user };
+        return user;
       })
     },
     projectRepository: {
       sessionInfo,
       getMainProject: mock(async (): Promise<Project> => {
-        return { ...project };
+        return project;
       }),
       create: mock(
         async (_params: CreateProjectParams): Promise<CommonCreateResult> => {
@@ -106,6 +175,23 @@ export const createTestContext = (
             createdAt: initProject.createdAt!,
             name: "project-name"
           };
+        }
+      )
+    },
+    boardRepository: {
+      getBoardsByProjectId: mock(
+        async (_projectId: string): Promise<entity.Board[]> => {
+          return boards;
+        }
+      ),
+      getBoardListsByBoardId: mock(
+        async (_boardId: string): Promise<entity.BoardList[]> => {
+          return boardList;
+        }
+      ),
+      getBoardListItemByBoardListId: mock(
+        async (_boardListItemId: string): Promise<entity.BoardListItem[]> => {
+          return boardListItems;
         }
       )
     }
@@ -122,4 +208,8 @@ export type MockedUserRepository = {
 
 export type MockedProjectRepository = {
   [K in keyof ProjectRepository]: Mock<ProjectRepository[K]>;
+};
+
+export type MockedBoardRepository = {
+  [K in keyof BoardRepository]: Mock<BoardRepository[K]>;
 };

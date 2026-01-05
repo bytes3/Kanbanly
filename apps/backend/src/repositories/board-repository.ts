@@ -1,63 +1,66 @@
-import type { Board, BoardList, BoardListItem } from "core/entity";
+import type { Board, BoardList, BoardListItem, SessionInfo } from "core/entity";
 import type { BoardRepository } from "core/repositories";
 import sql from "../db/instance";
 
 export class IBoardRepository implements BoardRepository {
-  async getBoadByDefaultBoardByProjectId(
-    projectId: string
-  ): Promise<Board | null> {
-    const [queryResult] = await sql`
+  private sessionInfo: SessionInfo;
+
+  constructor(sessionInfo: SessionInfo) {
+    this.sessionInfo = sessionInfo;
+  }
+
+  async getBoardsByProjectId(projectId: string): Promise<Board[]> {
+    const queryResult = await sql`
       SELECT * FROM board
         WHERE is_default = true AND 
               project_id = ${projectId};
     `;
 
-    if (!queryResult) {
-      return null;
-    }
-
-    return parseBoard(queryResult);
+    return parseBoards(queryResult);
   }
 
-  async getBoardListsByBoardId(boardId: string): Promise<BoardList[] | null> {
+  async getBoardListsByBoardId(boardId: string): Promise<BoardList[]> {
     const queryResult = await sql`
-      SELECT * FROM BoardList
-        WHERE board_id = ${boardId};
+      SELECT board_list.* FROM board_list
+        LEFT JOIN project_board on project_board_id = project_board.id
+        LEFT JOIN project on project_id = project.id
+        LEFT JOIN account on account_id = account.id
+      WHERE account_id = ${this.sessionInfo.accountId} AND
+            project_board_id = ${boardId};
     `;
-
-    if (queryResult.length <= 0) {
-      return null;
-    }
 
     return parseBoardList(queryResult);
   }
 
   async getBoardListItemByBoardListId(
     boardListId: string
-  ): Promise<BoardListItem[] | null> {
+  ): Promise<BoardListItem[]> {
     const queryResult = await sql`
-      SELECT * FROM BoardListItem
-        WHERE board_list_id = ${boardListId};
+      SELECT board_list_item.* FROM board_list_item
+        LEFT JOIN board_list on board_list_id = board_list.id
+        LEFT JOIN project_board on project_board_id = project_board.id
+        LEFT JOIN project on project_id = project.id
+        LEFT JOIN account on account_id = account.id
+      WHERE account_id = ${this.sessionInfo.accountId} AND
+            board_list_id = ${boardListId};
     `;
-
-    if (queryResult.length <= 0) {
-      return null;
-    }
 
     return parseBoardListItem(queryResult);
   }
 }
 
-function parseBoard(queryResult: any): Board {
-  return {
-    id: queryResult.id,
-    projectId: queryResult.project_id,
-    name: queryResult.name,
-    isDefault: queryResult.is_default,
-    position: queryResult.position,
-    createdAt: queryResult.created_at,
-    updatedAt: queryResult.updated_at
-  };
+function parseBoards(queryResult: any[]): Board[] {
+  return queryResult.map((board) => {
+    return {
+      id: board.id,
+      projectId: board.project_id,
+      name: board.name,
+      isDefault: board.is_default,
+      position: board.position,
+      createdAt: board.created_at,
+      updatedAt: board.updated_at
+    };
+  });
 }
 
 function parseBoardList(queryResult: any[]): BoardList[] {

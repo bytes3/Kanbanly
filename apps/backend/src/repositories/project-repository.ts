@@ -17,7 +17,7 @@ export class IProjectRepository implements ProjectRepository {
         ${params.projectName},
         ${params.projectDescription},
         ${params.boardName},
-        ARRAY[${params.boardList.join(", ")}]
+        ${sql.array(params.boardList)}
       );
     `;
 

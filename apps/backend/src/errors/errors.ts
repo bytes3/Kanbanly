@@ -2,6 +2,7 @@ import { HTTPException } from "hono/http-exception";
 import {
   AccountLoginMessage,
   AccountRegisterMessage,
+  BoardMessage,
   ProjectMessage,
   UserCreationMessage,
   UserOnboardingStatusMessage
@@ -60,8 +61,24 @@ export class UserNotFound extends UserError {
 
 export class ProjectNotFound extends UserError {
   constructor() {
-    super(403, {
+    super(400, {
       message: ProjectMessage.doesntExist
+    });
+  }
+}
+
+export class BoardListNotFound extends UserError {
+  constructor() {
+    super(400, {
+      message: BoardMessage.boardList.doesntExist
+    });
+  }
+}
+
+export class BoardListItemsNotFound extends UserError {
+  constructor() {
+    super(400, {
+      message: BoardMessage.boardItem.doesntExist
     });
   }
 }

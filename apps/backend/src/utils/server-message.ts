@@ -47,3 +47,12 @@ export const ProjectCreationMessage = {
 export const ProjectMessage = {
   doesntExist: "User has no projects"
 };
+
+export const BoardMessage = {
+  boardList: {
+    doesntExist: "User did not create any board list"
+  },
+  boardItem: {
+    doesntExist: "USer did not create any tasks"
+  }
+};

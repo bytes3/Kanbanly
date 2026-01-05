@@ -24,8 +24,8 @@ describe(() => {
 
   beforeEach(() => {
     const testContext = createTestContext();
+    user = testContext.entities.user;
 
-    user = testContext.user;
     userRepository = testContext.userRepository;
     projectRepository = testContext.projectRepository;
 

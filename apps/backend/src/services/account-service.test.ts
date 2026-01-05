@@ -18,7 +18,7 @@ describe("Auth Tests", () => {
   beforeEach(() => {
     const testContext = createTestContext();
 
-    account = testContext.account;
+    account = testContext.entities.account;
     accountRepository = testContext.accountRepository;
 
     accountService = new IAccountService(accountRepository);

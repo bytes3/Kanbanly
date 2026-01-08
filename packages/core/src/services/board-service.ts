@@ -1,7 +1,11 @@
 import type { Board, BoardList, BoardListItem } from "../entity";
 
 export interface BoardService {
-  getBoards(): Promise<Board[]>;
-  getBoardsList(boardId: string): Promise<BoardList[]>;
-  getBoardsListItems(boardListId: string): Promise<BoardListItem[]>;
+  getBoards(projectId: string): Promise<Board[]>;
+  getBoardsList(projectId: string, boardId: string): Promise<BoardList[]>;
+  getBoardsListItems(
+    projectId: string,
+    boardId: string,
+    boardListId: string
+  ): Promise<BoardListItem[]>;
 }

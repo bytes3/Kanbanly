@@ -185,12 +185,19 @@ export const createTestContext = () => {
         }
       ),
       getBoardListsByBoardId: mock(
-        async (_boardId: string): Promise<entity.BoardList[]> => {
+        async (
+          _projectId: string,
+          _boardId: string
+        ): Promise<entity.BoardList[]> => {
           return boardList;
         }
       ),
       getBoardListItemByBoardListId: mock(
-        async (_boardListItemId: string): Promise<entity.BoardListItem[]> => {
+        async (
+          _projectId: string,
+          _boardId: string,
+          _boardListItemId: string
+        ): Promise<entity.BoardListItem[]> => {
           return boardListItems;
         }
       )

@@ -67,6 +67,14 @@ export class ProjectNotFound extends UserError {
   }
 }
 
+export class BoardsNotFound extends UserError {
+  constructor() {
+    super(400, {
+      message: BoardMessage.boards.doesntExist
+    });
+  }
+}
+
 export class BoardListNotFound extends UserError {
   constructor() {
     super(400, {

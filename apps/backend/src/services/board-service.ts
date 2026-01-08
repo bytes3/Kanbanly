@@ -1,36 +1,28 @@
 import type { Board, BoardList, BoardListItem } from "core/entity";
-import type { BoardRepository, ProjectRepository } from "core/repositories";
+import type { BoardRepository } from "core/repositories";
 import type { BoardService } from "core/services";
 import {
   BoardListItemsNotFound,
   BoardListNotFound,
-  ProjectNotFound,
+  BoardsNotFound,
   UserError
 } from "../errors/errors";
 import { handleServerError } from "../utils/handleServerErrors";
 
 export class IBoardService implements BoardService {
   private boardRepository: BoardRepository;
-  private projectRepository: ProjectRepository;
 
-  constructor(
-    boardRepository: BoardRepository,
-    projectRepository: ProjectRepository
-  ) {
+  constructor(boardRepository: BoardRepository) {
     this.boardRepository = boardRepository;
-    this.projectRepository = projectRepository;
   }
 
-  async getBoards(): Promise<Board[]> {
+  async getBoards(projectId: string): Promise<Board[]> {
     try {
-      const project = await this.projectRepository.getMainProject();
-      if (!project) {
-        throw new ProjectNotFound();
-      }
+      const boards = await this.boardRepository.getBoardsByProjectId(projectId);
 
-      const boards = await this.boardRepository.getBoardsByProjectId(
-        project.id!
-      );
+      if (boards.length <= 0) {
+        throw new BoardsNotFound();
+      }
 
       return boards;
     } catch (error: any) {
@@ -42,10 +34,15 @@ export class IBoardService implements BoardService {
     }
   }
 
-  async getBoardsList(boardId: string): Promise<BoardList[]> {
+  async getBoardsList(
+    projectId: string,
+    boardId: string
+  ): Promise<BoardList[]> {
     try {
-      const boardsList =
-        await this.boardRepository.getBoardListsByBoardId(boardId);
+      const boardsList = await this.boardRepository.getBoardListsByBoardId(
+        projectId,
+        boardId
+      );
 
       if (boardsList.length <= 0) {
         throw new BoardListNotFound();
@@ -61,10 +58,17 @@ export class IBoardService implements BoardService {
     }
   }
 
-  async getBoardsListItems(boardListId: string): Promise<BoardListItem[]> {
+  async getBoardsListItems(
+    projectId: string,
+    boardId: string,
+    boardListId: string
+  ): Promise<BoardListItem[]> {
     try {
-      const result =
-        await this.boardRepository.getBoardListItemByBoardListId(boardListId);
+      const result = await this.boardRepository.getBoardListItemByBoardListId(
+        projectId,
+        boardId,
+        boardListId
+      );
 
       if (result.length <= 0) {
         throw new BoardListItemsNotFound();

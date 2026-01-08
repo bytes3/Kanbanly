@@ -11,38 +11,68 @@ export class IBoardRepository implements BoardRepository {
 
   async getBoardsByProjectId(projectId: string): Promise<Board[]> {
     const queryResult = await sql`
-      SELECT * FROM board
-        WHERE is_default = true AND 
-              project_id = ${projectId};
+      SELECT *
+        FROM project_board
+      WHERE
+        project_board.project_id = ${projectId}
+
+        AND EXISTS (
+          SELECT 1
+          FROM project
+          WHERE project.id = project_board.project_id
+            AND project.account_id = ${this.sessionInfo.accountId}
+        );
     `;
 
     return parseBoards(queryResult);
   }
 
-  async getBoardListsByBoardId(boardId: string): Promise<BoardList[]> {
+  async getBoardListsByBoardId(
+    projectId: string,
+    boardId: string
+  ): Promise<BoardList[]> {
     const queryResult = await sql`
-      SELECT board_list.* FROM board_list
-        LEFT JOIN project_board on project_board_id = project_board.id
-        LEFT JOIN project on project_id = project.id
-        LEFT JOIN account on account_id = account.id
-      WHERE account_id = ${this.sessionInfo.accountId} AND
-            project_board_id = ${boardId};
+      SELECT *
+        FROM board_list
+      WHERE
+        board_list.project_board_id = ${boardId}
+
+        AND EXISTS (
+          SELECT 1
+          FROM project_board
+            JOIN project ON project.id = project_board.project_id
+          WHERE project_board.id = board_list.project_board_id
+            AND project.id = ${projectId}
+            AND project.account_id = ${this.sessionInfo.accountId}
+        );
     `;
 
     return parseBoardList(queryResult);
   }
 
   async getBoardListItemByBoardListId(
+    projectId: string,
+    boardId: string,
     boardListId: string
   ): Promise<BoardListItem[]> {
     const queryResult = await sql`
-      SELECT board_list_item.* FROM board_list_item
-        LEFT JOIN board_list on board_list_id = board_list.id
-        LEFT JOIN project_board on project_board_id = project_board.id
-        LEFT JOIN project on project_id = project.id
-        LEFT JOIN account on account_id = account.id
-      WHERE account_id = ${this.sessionInfo.accountId} AND
-            board_list_id = ${boardListId};
+      SELECT *
+        FROM board_list_item
+      WHERE
+        board_list_item.board_list_id = ${boardListId}
+
+        -- validate hierarchy + ownership
+        AND EXISTS (
+          SELECT 1
+          FROM board_list
+            JOIN project_board ON project_board.id = board_list.project_board_id
+            JOIN project ON project.id = project_board.project_id
+          WHERE board_list.id = ${boardListId}
+            AND project_board.id = ${boardId}
+            AND project.id = ${projectId}
+            AND project.account_id = ${this.sessionInfo.accountId}
+        )
+      ORDER BY board_list_item.position;
     `;
 
     return parseBoardListItem(queryResult);

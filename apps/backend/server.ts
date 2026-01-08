@@ -5,9 +5,13 @@ import { UserError } from "./src/errors/errors";
 import { HTTPException } from "hono/http-exception";
 import registerRoute from "./src/routes/register-route";
 import loginRoute from "./src/routes/login-route";
-import userInitRoute from "./src/routes/post-user-init";
-import projectInitRoute from "./src/routes/post-project-init-route";
-import finishedOnboardingRoute from "./src/routes/put-finished-onboarding";
+import postUserInitRoute from "./src/routes/post-user-init";
+import postProjectInitRoute from "./src/routes/post-project-init-route";
+import getDefaultProjectRoute from "./src/routes/get-project-default";
+import getProjectBoardsRoute from "./src/routes/get-board";
+import getProjectBoardsListRoute from "./src/routes/get-board-list";
+import getProjectBoardsListItemsRoute from "./src/routes/get-board-list-items";
+import putFinishedOnboardingRoute from "./src/routes/put-finished-onboarding";
 import getUserInformationRoute from "./src/routes/get-user-information";
 
 const app = new Hono();
@@ -53,10 +57,20 @@ app.get("/app/auth-test", async (c) => {
 app.route("/auth/register", registerRoute);
 app.route("/auth/login", loginRoute);
 
-app.route("/app/user/init", userInitRoute);
-app.route("/app/user/onboarding-finished", finishedOnboardingRoute);
+app.route("/app/user/init", postUserInitRoute);
+app.route("/app/user/onboarding-finished", putFinishedOnboardingRoute);
 app.route("/app/user/information", getUserInformationRoute);
 
-app.route("/app/project-init", projectInitRoute);
+app.route("/app/project-init", postProjectInitRoute);
+app.route("/app/project/default-project", getDefaultProjectRoute);
+app.route("/app/project/:projectId/boards", getProjectBoardsRoute);
+app.route(
+  "/app/project/:projectId/board/:boardId/lists",
+  getProjectBoardsListRoute
+);
+app.route(
+  "/app/project/:projectId/board/:boardId/list/:boardListId/items",
+  getProjectBoardsListItemsRoute
+);
 
 export default app;

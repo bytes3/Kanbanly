@@ -77,6 +77,27 @@ export class IBoardRepository implements BoardRepository {
 
     return parseBoardListItem(queryResult);
   }
+
+  createBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem> {
+    throw new Error("Method not implemented.");
+  }
+
+  updateBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem> {
+    throw new Error("Method not implemented.");
+  }
+
+  deleteBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem> {
+    throw new Error("Method not implemented.");
+  }
 }
 
 function parseBoards(queryResult: any[]): Board[] {

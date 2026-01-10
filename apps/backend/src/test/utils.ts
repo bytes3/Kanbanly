@@ -7,7 +7,7 @@ import type {
   ProjectRepository,
   UserRepository
 } from "core/repositories";
-import type { Board, InitProject, User } from "core/entity";
+import type { Board, User } from "core/entity";
 import type { Project } from "core/entity";
 import type { CommonCreateResult } from "core/utils";
 
@@ -71,7 +71,7 @@ const createEntitesContext = () => ({
       createdAt: "2022-01-12T06:15:00.000Z",
       updatedAt: "2022-01-12T06:15:00.000Z"
     }
-  ] as Board[],
+  ] as [entity.Board, ...Board[]],
   boardList: [
     {
       id: "list-id",
@@ -89,7 +89,7 @@ const createEntitesContext = () => ({
       createdAt: "2022-01-12T06:15:00.000Z",
       updatedAt: "2022-01-12T06:15:00.000Z"
     }
-  ] as entity.BoardList[],
+  ] as [entity.BoardList, ...entity.BoardList[]],
   boardListItems: [
     {
       id: "item-id",
@@ -101,7 +101,7 @@ const createEntitesContext = () => ({
       updatedAt: "2022-01-12T06:15:00.000Z",
       completedAt: "2022-01-12T06:15:00.000Z"
     }
-  ] as entity.BoardListItem[]
+  ] as [entity.BoardListItem, ...entity.BoardListItem[]]
 });
 
 export const createTestContext = () => {
@@ -200,7 +200,16 @@ export const createTestContext = () => {
         ): Promise<entity.BoardListItem[]> => {
           return boardListItems;
         }
-      )
+      ),
+      createBoardListItem: mock(async () => {
+        return boardListItems[0];
+      }),
+      updateBoardListItem: mock(async () => {
+        return boardListItems[0];
+      }),
+      deleteBoardListItem: mock(async () => {
+        return boardListItems[0];
+      })
     }
   };
 };
@@ -220,3 +229,5 @@ export type MockedProjectRepository = {
 export type MockedBoardRepository = {
   [K in keyof BoardRepository]: Mock<BoardRepository[K]>;
 };
+
+export type EntitiesContext = ReturnType<typeof createEntitesContext>;

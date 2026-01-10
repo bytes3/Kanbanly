@@ -8,6 +8,11 @@ import {
   UserError
 } from "../errors/errors";
 import { handleServerError } from "../utils/handleServerErrors";
+import type {
+  CommonCreateResult,
+  CommonDeleteResult,
+  CommonUpdateResult
+} from "core/utils";
 
 export class IBoardService implements BoardService {
   private boardRepository: BoardRepository;
@@ -81,6 +86,75 @@ export class IBoardService implements BoardService {
       }
 
       handleServerError("Failed to get boards list items", error);
+    }
+  }
+
+  async createBoardItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<CommonCreateResult> {
+    try {
+      const createdBoardListItem =
+        await this.boardRepository.createBoardListItem(
+          boardListId,
+          boardListItem
+        );
+
+      const result: CommonCreateResult = {
+        id: createdBoardListItem.id,
+        name: createdBoardListItem.title,
+        createdAt: createdBoardListItem.createdAt
+      };
+
+      return result;
+    } catch (error: any) {
+      handleServerError("Failed to create board list item", error);
+    }
+  }
+
+  async updateBoardItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<CommonUpdateResult> {
+    try {
+      const updatedBoardListItem =
+        await this.boardRepository.updateBoardListItem(
+          boardListId,
+          boardListItem
+        );
+
+      const result: CommonUpdateResult = {
+        id: updatedBoardListItem.id,
+        name: updatedBoardListItem.title,
+        modifiedAt: updatedBoardListItem.updatedAt
+      };
+
+      return result;
+    } catch (error: any) {
+      handleServerError("Failed to update board list item", error);
+    }
+  }
+
+  async deleteBoardItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<CommonDeleteResult> {
+    try {
+      const updatedBoardListItem =
+        await this.boardRepository.deleteBoardListItem(
+          boardListId,
+          boardListItem
+        );
+
+      const result: CommonDeleteResult = {
+        id: updatedBoardListItem.id,
+        name: updatedBoardListItem.title,
+        deletedAt: updatedBoardListItem.deletedAt!
+      };
+
+      return result;
+    } catch (error: any) {
+      handleServerError("Failed to update board list item", error);
     }
   }
 }

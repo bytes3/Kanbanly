@@ -1,16 +1,25 @@
 import { beforeEach, describe, expect, it } from "bun:test";
-import { createTestContext, type MockedBoardRepository } from "../test/utils";
+import {
+  createTestContext,
+  type EntitiesContext,
+  type MockedBoardRepository
+} from "../test/utils";
 import { IBoardService } from "./board-service";
 import {
   BoardListItemsNotFound,
   BoardListNotFound,
   BoardsNotFound
 } from "../errors/errors";
+import type {
+  CommonCreateResult,
+  CommonDeleteResult,
+  CommonUpdateResult
+} from "core/utils";
 
 describe("BoardService", () => {
   let boardRepository: MockedBoardRepository;
   let boardService: IBoardService;
-  let entities: any;
+  let entities: EntitiesContext;
   let projectId: string;
   let boardId: string;
   let boardListId: string;
@@ -22,7 +31,7 @@ describe("BoardService", () => {
     entities = testContext.entities;
     boardService = new IBoardService(boardRepository);
 
-    projectId = entities.project.id;
+    projectId = entities.project.id!;
     boardId = entities.boards[0].id;
     boardListId = entities.boardList[0].id;
   });
@@ -98,6 +107,77 @@ describe("BoardService", () => {
         projectId,
         boardId,
         boardListId
+      );
+    });
+  });
+
+  describe("createBoardItem()", () => {
+    it("should create a board list item, and return common create result", async () => {
+      const [boardListItem] = entities.boardListItems;
+      const expectedResult: CommonCreateResult = {
+        id: boardListItem.id,
+        name: boardListItem.title,
+        createdAt: boardListItem.createdAt
+      };
+
+      const result = await boardService.createBoardItem(
+        boardListId,
+        boardListItem
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(boardRepository.createBoardListItem).toBeCalledWith(
+        boardListId,
+        boardListItem
+      );
+    });
+  });
+
+  describe("updateBoardItem()", () => {
+    it("should update board list item", async () => {
+      const [boardListItem] = entities.boardListItems;
+      const expectedResult: CommonUpdateResult = {
+        id: boardListItem.id,
+        name: boardListItem.title,
+        modifiedAt: boardListItem.createdAt
+      };
+
+      const result = await boardService.updateBoardItem(
+        boardListId,
+        boardListItem
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(boardRepository.updateBoardListItem).toBeCalledWith(
+        boardListId,
+        boardListItem
+      );
+    });
+  });
+
+  describe("deleteBoardItem()", () => {
+    it("should delete board list item", async () => {
+      const [boardListItem] = entities.boardListItems;
+      const isoDate = new Date(Date.now()).toISOString();
+      boardRepository.deleteBoardListItem.mockResolvedValue({
+        ...boardListItem,
+        deletedAt: isoDate
+      });
+      const expectedResult: CommonDeleteResult = {
+        id: boardListItem.id,
+        name: boardListItem.title,
+        deletedAt: isoDate
+      };
+
+      const result = await boardService.deleteBoardItem(
+        boardListId,
+        boardListItem
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(boardRepository.deleteBoardListItem).toBeCalledWith(
+        boardListId,
+        boardListItem
       );
     });
   });

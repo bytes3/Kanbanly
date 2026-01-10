@@ -11,4 +11,16 @@ export interface BoardRepository {
     boardId: string,
     boardListId: string
   ): Promise<BoardListItem[]>;
+  createBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem>;
+  updateBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem>;
+  deleteBoardListItem(
+    boardListId: string,
+    boardListItem: BoardListItem
+  ): Promise<BoardListItem>;
 }

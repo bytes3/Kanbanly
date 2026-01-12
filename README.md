@@ -13,13 +13,13 @@ Kanbaly is a simple, multi-platform Kanban application that enables cloudless co
 ### Backend
 - [x] Authentication
 - [x] Onboarding
-- [ ] Task creation (*in progress*)
+- [ ] Task creation
 
 ### File structure
 - [x] Setup monorepo
 
 ### Frontend
-- [ ] Login screen
+- [ ] Login screen (*in progress*)
 - [ ] Task list screen
 - [ ] Board screen
 - [ ] Task preview modal

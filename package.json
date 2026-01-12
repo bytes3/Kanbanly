@@ -2,6 +2,12 @@
   "name": "Kanbaly",
   "private": false,
   "version": "0.1.0",
+  "scripts": {
+    "server:start": "bun --cwd apps/backend start",
+    "server:test": "bun --cwd apps/backend test",
+    "server:migration": "bun --cwd apps/backend migration",
+    "app:start": "bun --cwd apps/frontend start"
+  },
   "workspaces": [
     "apps/backend",
     "apps/frontend",

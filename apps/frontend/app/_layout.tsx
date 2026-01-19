@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Stack } from "expo-router";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeContextProvider } from "../context/ThemeContext";
 import { StoreProvider } from "../hooks/useStore";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { createRootStore, type KanbanlyStore } from "@/store/setup";
-import { gluestackUIConfig } from "../config/gluestack-ui.config";
-
-import "@/global.css";
 
 export default function RootLayout() {
   const [rootStore, setRootStore] = useState<KanbanlyStore>();
@@ -20,20 +17,20 @@ export default function RootLayout() {
 
   if (!rootStore) {
     return (
-      <GluestackUIProvider config={gluestackUIConfig}>
+      <ThemeContextProvider>
         <LoadingComponent />
-      </GluestackUIProvider>
+      </ThemeContextProvider>
     );
   }
 
   return (
-    <GluestackUIProvider config={gluestackUIConfig}>
+    <ThemeContextProvider>
       <StoreProvider store={rootStore}>
         <SafeAreaProvider>
           <RootNavigation />
         </SafeAreaProvider>
       </StoreProvider>
-    </GluestackUIProvider>
+    </ThemeContextProvider>
   );
 }
 

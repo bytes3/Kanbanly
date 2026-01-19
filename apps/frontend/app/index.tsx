@@ -1,13 +1,15 @@
-import { HStack } from "@/components/ui/hstack";
-import { Link } from "@/components/ui/link";
-import { Text } from "@/components/ui/text";
-import { LinkText } from "@gluestack-ui/themed/build/components";
-import { useEffect } from "react";
+import { Text, View } from "react-native";
 
 export default function Index() {
   return (
-    <HStack className="justify-center items-center min-h-16" space="sm">
-      <Text size="sm">Dashboard TODO</Text>
-    </HStack>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text>Edit app/index.tsx to edit this screen.</Text>
+    </View>
   );
 }

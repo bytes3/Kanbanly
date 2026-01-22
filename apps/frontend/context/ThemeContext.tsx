@@ -1,15 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Theme, ThemeMode } from "../types/theme.types";
-import { createTheme } from "../utils/theme";
+import { StatusBar, useColorScheme } from "react-native";
+import { Theme, ThemeMode, createTheme } from "../config/theme";
 
 interface ThemeContextType {
-  theme: Theme;
+  values: Theme;
   themeMode: ThemeMode;
+  backgroundColor: string;
   toggleTheme: () => void;
   setThemeMode: (mode: ThemeMode) => void;
+  setBackgroundColor: (color: string) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function useTheme() {
   const context = useContext(ThemeContext);
@@ -22,8 +24,14 @@ export function useTheme() {
 export const ThemeContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [themeMode, setThemeMode] = useState<ThemeMode>("light");
-  const [theme, setTheme] = useState<Theme>(createTheme("light"));
+  const colorScheme = useColorScheme();
+  const defaultColorScheme = colorScheme ? colorScheme : "dark";
+
+  const [themeMode, setThemeMode] = useState<ThemeMode>(defaultColorScheme);
+  const [theme, setTheme] = useState<Theme>(createTheme(defaultColorScheme));
+  const [backgroundColor, setBackgroundColor] = useState<string>(
+    theme.colors.background
+  );
 
   useEffect(() => {
     setTheme(createTheme(themeMode));
@@ -36,14 +44,20 @@ export const ThemeContextProvider: React.FC<{
   return (
     <ThemeContext.Provider
       value={{
-        theme,
+        values: theme,
         themeMode,
+        backgroundColor,
         toggleTheme,
-        setThemeMode
+        setThemeMode,
+        setBackgroundColor
       }}
     >
+      <StatusBar
+        barStyle={
+          defaultColorScheme === "dark" ? "light-content" : "dark-content"
+        }
+      />
       {children}
     </ThemeContext.Provider>
   );
 };
-

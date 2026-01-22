@@ -1,15 +1,20 @@
-import { Text, View } from "react-native";
+import { useTheme } from "@/context/ThemeContext";
+import { Heading, Body } from "@/components/Typography";
+import { View } from "react-native";
 
 export default function Index() {
+  const theme = useTheme();
+
   return (
     <View
       style={{
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Heading level={2}>Dashboard</Heading>
+      <Body color="textSecondary">Welcome back.</Body>
     </View>
   );
 }

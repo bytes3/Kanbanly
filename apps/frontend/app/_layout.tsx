@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ThemeContextProvider } from "../context/ThemeContext";
+import { ThemeContextProvider, useTheme } from "../context/ThemeContext";
 import { StoreProvider } from "../hooks/useStore";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { createRootStore, type KanbanlyStore } from "@/store/setup";
@@ -35,15 +35,21 @@ export default function RootLayout() {
 }
 
 function RootNavigation() {
+  const { backgroundColor } = useTheme();
+
   return (
     <Stack
-      initialRouteName={"index"}
+      initialRouteName={"auth/register/index"}
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+
+        contentStyle: { backgroundColor }
       }}
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="+not-found" />
+      <Stack.Screen name="auth/register/index" />
     </Stack>
   );
 }

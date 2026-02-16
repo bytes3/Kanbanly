@@ -6,7 +6,7 @@ import {
   ProjectMessage,
   UserCreationMessage,
   UserOnboardingStatusMessage
-} from "../utils/server-message";
+} from "shared/utils";
 
 export class ServerError extends Error {
   constructor(message: string, cause?: Error) {

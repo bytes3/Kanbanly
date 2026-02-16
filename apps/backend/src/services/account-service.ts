@@ -10,7 +10,7 @@ import {
   AccountNotFound,
   MissingEnviermentVariable
 } from "../errors/errors";
-import { handleServerError } from "../utils/handleServerErrors";
+import { handleServerError } from "shared/errors";
 import {
   AccountLoginMessage,
   AccountRegisterMessage

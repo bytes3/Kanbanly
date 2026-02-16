@@ -1,2 +1,2 @@
 export * from "./validator-utils";
-export * from "./server-message.ts";
+export * from "./server-message";

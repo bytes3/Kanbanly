@@ -42,14 +42,15 @@ function RootNavigation() {
       initialRouteName={"auth/register/index"}
       screenOptions={{
         headerShown: false,
-        tabBarHideOnKeyboard: true,
-
         contentStyle: { backgroundColor }
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen
+        name="auth/register/success"
+        options={{ animation: "slide_from_right" }}
+      />
       <Stack.Screen name="+not-found" />
-      <Stack.Screen name="auth/register/index" />
     </Stack>
   );
 }

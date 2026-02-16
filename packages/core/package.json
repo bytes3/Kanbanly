@@ -5,7 +5,8 @@
     "./entity": "./src/entity/index.ts",
     "./repositories": "./src/repositories/index.ts",
     "./services": "./src/services/index.ts",
-    "./utils": "./src/utils/index.ts"
+    "./utils": "./src/utils/index.ts",
+    "./test": "./src/test/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

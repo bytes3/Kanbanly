@@ -7,7 +7,7 @@ import {
   BoardsNotFound,
   UserError
 } from "../errors/errors";
-import { handleServerError } from "../utils/handleServerErrors";
+import { handleServerError } from "shared/errors";
 import type {
   CommonCreateResult,
   CommonDeleteResult,

@@ -13,6 +13,7 @@ import getProjectBoardsListRoute from "./src/routes/get-board-list";
 import getProjectBoardsListItemsRoute from "./src/routes/get-board-list-items";
 import putFinishedOnboardingRoute from "./src/routes/put-finished-onboarding";
 import getUserInformationRoute from "./src/routes/get-user-information";
+import { cors } from "hono/cors";
 
 const app = new Hono();
 
@@ -43,11 +44,23 @@ app.onError((err, c) => {
 
 app.use(logger());
 
+const corsMiddleware = cors({
+  origin: "*",
+  allowHeaders: ["*"],
+  allowMethods: ["*"],
+  exposeHeaders: ["*"],
+  maxAge: 600,
+  credentials: true
+});
+
+app.use("/auth/*", corsMiddleware);
+
 app.use(
   "/app/*",
   jwt({
     secret: Bun.env.SECRET_JWT as string
-  })
+  }),
+  corsMiddleware
 );
 
 app.get("/app/auth-test", async (c) => {

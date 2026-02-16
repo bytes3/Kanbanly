@@ -8,7 +8,7 @@ import {
   UsernameAlreadyExists,
   UserNotFound
 } from "../errors/errors";
-import { handleServerError } from "../utils/handleServerErrors";
+import { handleServerError } from "shared/errors";
 import {
   UserCreationMessage,
   UserGetMessage,

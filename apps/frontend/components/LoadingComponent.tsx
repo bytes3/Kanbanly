@@ -4,7 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 export function LoadingComponent() {
   const theme = useTheme();
-  const { colors } = theme.theme;
+  const { colors } = theme.values;
 
   return (
     <View style={styles.container}>

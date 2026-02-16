@@ -1,18 +1,21 @@
 import { Instance, onSnapshot, types } from "mobx-state-tree";
 import { ApisauceInstance, create } from "apisauce";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserStore } from "./user/user-store";
 import { EnvVars } from "@/config/env";
+import { AuthApi, createAuthApi } from "./account/api/auth.api";
+import { AccountStore } from "./account/account-store";
 
 const KanbanlyStore = types.model("KanbanlyStore", {
-  userStore: UserStore
+  accountStore: AccountStore
 });
+
+export type Apis = {
+  auth: AuthApi;
+};
 
 export type KanbanlyAppEnv = {
   sauce: ApisauceInstance;
-  apis: {
-    auth: {};
-  };
+  apis: Apis;
 };
 
 export const createRootStore = async (): Promise<KanbanlyStore> => {
@@ -25,16 +28,18 @@ export const createRootStore = async (): Promise<KanbanlyStore> => {
     (await AsyncStorage.getItem("kanbanlyStore")) ?? "{}"
   );
 
+  const authApi = createAuthApi(sauce);
+
   const kanbanlyEnv: KanbanlyAppEnv = {
     sauce,
     apis: {
-      auth: {} // TODO: createUserApi(sauce),
+      auth: authApi
     }
   };
 
   const store = KanbanlyStore.create(
     {
-      userStore: {},
+      accountStore: {},
       ...preservedStore
     },
     kanbanlyEnv

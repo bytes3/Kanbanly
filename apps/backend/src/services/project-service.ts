@@ -2,7 +2,7 @@ import type { InitProject, Project } from "core/entity";
 import type { ProjectRepository } from "core/repositories";
 import type { ProjectService } from "core/services";
 import type { CommonCreateResult } from "core/utils";
-import { handleServerError } from "../utils/handleServerErrors";
+import { handleServerError } from "shared/errors";
 import { ProjectCreationMessage } from "../utils/server-message";
 import { ProjectNotFound, UserError } from "../errors/errors";
 

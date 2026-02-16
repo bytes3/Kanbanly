@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     "./utils": "./src/utils/index.ts",
+    "./errors": "./src/errors/index.ts",
     "./validators": "./src/validators/index.ts"
   },
   "devDependencies": {

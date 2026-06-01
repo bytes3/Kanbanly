@@ -40,7 +40,10 @@
           }
         }
       ],
-      "expo-system-ui"
+      "expo-system-ui",
+      "expo-font",
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
